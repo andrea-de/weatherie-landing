@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+	title="Terms of Service — Weatherie"
+	description="Terms of Service for Weatherie app."
+>
+	<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+		<a href="/" class="inline-flex items-center text-sky-600 font-bold mb-12 hover:translate-x-[-4px] transition-transform">
+			<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+			Back to Home
+		</a>
+		
+		<h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-8 font-['Outfit']">Terms of Service</h1>
+		
+		<div class="prose prose-sky prose-lg text-slate-600 space-y-8">
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Acceptance of Terms</h2>
+				<p>By downloading or using Weatherie, these terms will automatically apply to you – you should make sure therefore that you read them carefully before using the app.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Intellectual Property</h2>
+				<p>The app itself, and all the trademarks, copyright, database rights and other intellectual property rights related to it, belong to Weatherie.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Use License</h2>
+				<p>We grant you a personal, non-exclusive, non-transferable, limited license to download and use the app for your personal, non-commercial use only.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Modifications to the Service</h2>
+				<p>We reserve the right to modify or withdraw the service at any time for any reason without notice. We will not be liable to you or any third party for any modification, suspension or discontinuance of the service.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Termination</h2>
+				<p>We may terminate or suspend your access to our service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Contact Us</h2>
+				<p>If you have any questions or suggestions about our Terms and Conditions, do not hesitate to contact us at <a href="mailto:support@weatherie.com" class="text-sky-600 font-bold">support@weatherie.com</a>.</p>
+			</section>
+			
+			<p class="text-sm italic pt-8 border-t border-slate-100">Last updated: {new Date().toLocaleDateString()}</p>
+		</div>
+	</main>
+</Layout>

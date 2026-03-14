@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+	title="Privacy Policy — Weatherie"
+	description="Privacy Policy for Weatherie app."
+>
+	<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+		<a href="/" class="inline-flex items-center text-sky-600 font-bold mb-12 hover:translate-x-[-4px] transition-transform">
+			<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+			Back to Home
+		</a>
+		
+		<h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-8 font-['Outfit']">Privacy Policy</h1>
+		
+		<div class="prose prose-sky prose-lg text-slate-600 space-y-8">
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Introduction</h2>
+				<p>Your privacy is important to us. This Privacy Policy explains how Weatherie ("we", "our", or "us") collects, uses, and protects your information when you use our mobile application and website.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Information We Collect</h2>
+				<p>Weatherie is designed to be a private experience. We do not require you to create an account to use the app. We may collect minimal, non-identifiable technical data to improve the application experience, such as:</p>
+				<ul class="list-disc pl-6 space-y-2 mt-4">
+					<li>Theme preferences and customization settings (stored locally on your device).</li>
+					<li>Device type and operating system version.</li>
+					<li>Anonymous usage statistics to help us fix bugs and improve performance.</li>
+					<li>Location data (only if explicitly granted by you for weather forecasts).</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Third-Party Services</h2>
+				<p>We use third-party weather data providers to provide accurate forecasts. These services may receive your location data if you have granted the app permission. We also use analytics services that have their own privacy policies.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Children's Privacy</h2>
+				<p>Weatherie is a family-friendly application. We do not knowingly collect personal information from children under the age of 13. If you believe we have accidentally collected such information, please contact us immediately.</p>
+			</section>
+
+			<section>
+				<h2 class="text-2xl font-bold text-slate-900 mb-4">Contact Us</h2>
+				<p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:support@weatherie.com" class="text-sky-600 font-bold">support@weatherie.com</a>.</p>
+			</section>
+			
+			<p class="text-sm italic pt-8 border-t border-slate-100">Last updated: {new Date().toLocaleDateString()}</p>
+		</div>
+	</main>
+</Layout>
