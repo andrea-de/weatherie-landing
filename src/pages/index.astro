@@ -23,9 +23,9 @@ import Layout from '../layouts/Layout.astro';
 				<span class="text-xl font-extrabold tracking-tight text-slate-800 font-['Outfit'] uppercase">Weatherie</span>
 			</div>
 			<div class="hidden md:flex gap-10 font-bold text-slate-500 text-sm uppercase tracking-widest">
+				<a href="#features" class="hover:text-sky-500 transition-colors">Features</a>
 				<a href="#overview" class="hover:text-sky-500 transition-colors">Overview</a>
 				<a href="#themes" class="hover:text-sky-500 transition-colors">Themes</a>
-				<a href="#features" class="hover:text-sky-500 transition-colors">Features</a>
 			</div>
 			<a href="#download" class="bg-slate-900 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-slate-800 transition-all active:scale-95 shadow-lg shadow-slate-200">
 				Get App
@@ -47,6 +47,12 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 
 			<div class="relative max-w-4xl mx-auto">
+				<div class="flex justify-center pb-3">
+					<div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-slate-500 shadow-sm backdrop-blur">
+						<span class="block h-2 w-2 rounded-full bg-sky-400"></span>
+						Full App Preview
+					</div>
+				</div>
 				<!-- Mockup Group -->
 				<div class="relative z-10 flex justify-center items-end gap-4 md:gap-8">
 					<div class="hidden md:block w-48 h-[400px] bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 -rotate-12 translate-y-12 overflow-hidden opacity-40">
@@ -76,7 +82,7 @@ import Layout from '../layouts/Layout.astro';
                                                                 <div class="w-full h-full relative z-10 overflow-hidden" style="overscroll-behavior: contain;">
                                                                         <div class="absolute inset-0 overflow-hidden">
                                                                                 <div class="w-[125%] h-[125%] origin-top-left scale-[0.8]" style="overscroll-behavior: contain;">
-                                                                                        <iframe src="/demo/index.html" data-demo-phone-frame data-base-src="/demo/index.html" class="block w-full h-full border-none" style="overscroll-behavior: contain;" allow="geolocation" scrolling="no" title="Weatherie Interactive Demo"></iframe>
+                                                                                        <iframe src="/demo/index.html" data-demo-frame data-demo-phone-frame data-base-src="/demo/index.html" class="block w-full h-full border-none" style="overscroll-behavior: contain;" allow="geolocation" scrolling="no" title="Weatherie Interactive Demo"></iframe>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -90,6 +96,60 @@ import Layout from '../layouts/Layout.astro';
 						<div class="h-full bg-gradient-to-b from-sky-100 to-violet-100"></div>
 					</div>
 				</div>
+			</div>
+
+			<div class="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 px-3 sm:px-6 lg:px-8">
+				<section id="features" class="mx-auto max-w-[90rem]">
+					<div class="relative overflow-hidden rounded-[3rem] border border-slate-200 bg-slate-950 shadow-[0_40px_120px_-40px_rgba(15,23,42,0.55)]">
+						<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.26),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(20,184,166,0.2),_transparent_36%),linear-gradient(135deg,_rgba(15,23,42,0.98),_rgba(2,6,23,0.92))]"></div>
+						<div class="relative grid gap-8 lg:grid-cols-[minmax(20rem,0.58fr)_minmax(0,1.42fr)] p-5 sm:p-8 lg:p-10 xl:p-12">
+							<div class="space-y-6 text-left lg:py-8">
+								<div class="space-y-4">
+									<h2 class="max-w-lg text-4xl font-black leading-[0.95] text-white md:text-6xl font-['Outfit'] uppercase tracking-tight">
+										A Closer Look at the Hourly Forecast
+									</h2>
+									<p class="max-w-xl text-base leading-relaxed text-slate-300 md:text-lg">
+										This view is dense on purpose: it lets you scan the next hours quickly, then scroll across the timeline for the deeper detail.
+									</p>
+								</div>
+								<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+									<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4">
+										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Controls</div>
+										<div class="mt-2 text-lg font-black text-white font-['Outfit']">Live toggles</div>
+										<p class="mt-2 text-sm leading-relaxed text-slate-300">Temperature, rain, humidity, wind, and cloud detail can all be emphasized on demand.</p>
+									</div>
+									<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4">
+										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Timeline</div>
+										<div class="mt-2 text-lg font-black text-white font-['Outfit']">Scrollable hours</div>
+										<p class="mt-2 text-sm leading-relaxed text-slate-300">The widget keeps its native horizontal browsing instead of compressing every column into a static preview.</p>
+									</div>
+								</div>
+							</div>
+							<div class="relative">
+								<div class="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-sky-500/20 via-teal-400/15 to-transparent blur-3xl"></div>
+								<div class="relative overflow-hidden rounded-[2.4rem] border border-white/10 bg-slate-900/75 shadow-2xl backdrop-blur-sm">
+									<div class="flex items-center justify-between border-b border-white/10 px-5 py-3">
+										<div class="flex items-center gap-2">
+											<span class="h-2.5 w-2.5 rounded-full bg-rose-400/85"></span>
+											<span class="h-2.5 w-2.5 rounded-full bg-amber-300/85"></span>
+											<span class="h-2.5 w-2.5 rounded-full bg-emerald-300/85"></span>
+										</div>
+										<div class="text-[10px] font-black uppercase tracking-[0.28em] text-white/45">Interactive Preview</div>
+									</div>
+									<iframe
+										src="/demo/index.html?scene=hourly&renderer=canvaskit&v=20260314d"
+										data-demo-frame
+										data-demo-hourly-frame
+										data-base-src="/demo/index.html?scene=hourly&renderer=canvaskit&v=20260314d"
+										class="block h-[25rem] w-full border-none transition-[height] duration-300 ease-out sm:h-[31rem] lg:h-[38rem] xl:h-[42rem]"
+										scrolling="no"
+										title="Hourly forecast interactive preview"
+									></iframe>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
 			</div>
 		</header>
 
@@ -180,28 +240,27 @@ import Layout from '../layouts/Layout.astro';
 		</section>
 
 		<!-- Features Restructured Grid -->
-		<section id="features" class="py-12 border-t border-slate-100">
+		<section class="py-12 border-t border-slate-100">
 			<div class="max-w-4xl mb-12">
-				<h2 class="text-4xl font-black text-slate-900 font-['Outfit'] leading-tight mb-4 uppercase">Beyond Just a Pretty Interface</h2>
-				<p class="text-slate-500 font-medium leading-relaxed">High-performance weather tools for the data-driven enthusiast.</p>
+				<h2 class="text-4xl font-black text-slate-900 font-['Outfit'] leading-tight mb-4 uppercase">More Live Components</h2>
+				<p class="text-slate-500 font-medium leading-relaxed">Focused previews for the rest of the surface area, so visitors can get a sense of the app’s depth without loading a second full experience.</p>
 			</div>
 
 			<div class="space-y-12">
 				{[
 					{ 
 						title: "Dynamic Radar", 
-						desc: "Real-time precipitation maps with a stylized, artistic overlay. Track storms across a canvas of high-resolution data.", 
-						visual: "bg-sky-500/20"
+						desc: "A live radar-style panel for tracking weather systems, with the full interactive map reserved for the app itself.", 
+						visual: "from-sky-500/20 via-cyan-500/15 to-slate-900/40",
+						scene: "radar",
+						interactive: false
 					},
 					{ 
-						title: "Hourly Nuance", 
-						desc: "Detailed breakdown of wind, UV index, and air quality. Every metric is visualised to match your selected theme.", 
-						visual: "bg-teal-500/20"
-					},
-					{ 
-						title: "Theme Editor", 
-						desc: "Create your own packs with our intuitive color-mapping engine. Share your unique vision with the global community.", 
-						visual: "bg-violet-500/20"
+						title: "Ten-Day Rhythm", 
+						desc: "A quick scan of the week ahead, with conditions and temperature swings presented as a clean daily strip.", 
+						visual: "from-violet-500/20 via-indigo-500/10 to-slate-950/50",
+						scene: "daily",
+						interactive: false
 					}
 				].map((feature) => (
 					<div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-x-16 gap-y-6 items-start border-b border-slate-50 pb-12 last:border-0 last:pb-0">
@@ -210,9 +269,23 @@ import Layout from '../layouts/Layout.astro';
 						</h4>
 
 						<div class="order-2 md:col-start-2 md:row-start-1 md:row-span-2">
-							<div class={`h-56 md:h-64 rounded-[2.5rem] ${feature.visual} border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden relative group`}>
-								<div class="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-								<span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Visual Component</span>
+							<div class="relative h-56 md:h-64 rounded-[2.5rem] border border-slate-200 overflow-hidden bg-slate-950 shadow-xl shadow-slate-200/60">
+								<div class={`absolute inset-0 bg-gradient-to-br ${feature.visual}`}></div>
+								<div class="absolute inset-[1px] rounded-[2.35rem] overflow-hidden bg-slate-950/70 backdrop-blur-sm">
+									<iframe
+										src={`/demo/index.html?scene=${feature.scene}`}
+										data-demo-frame
+										data-base-src={`/demo/index.html?scene=${feature.scene}`}
+										loading="lazy"
+										class={`block w-full h-full border-none ${feature.interactive ? 'pointer-events-auto' : 'pointer-events-none'}`}
+										scrolling="no"
+										title={`${feature.title} widget preview`}
+									></iframe>
+								</div>
+								<div class="absolute inset-0 rounded-[2.5rem] ring-1 ring-white/10 pointer-events-none"></div>
+								<div class="absolute left-4 top-4 px-3 py-1 rounded-full bg-black/35 text-[10px] font-black uppercase tracking-[0.25em] text-white/70 pointer-events-none">
+									Live Widget
+								</div>
 							</div>
 						</div>
 
@@ -299,6 +372,11 @@ import Layout from '../layouts/Layout.astro';
 
 	const demoPhoneShell = document.querySelector('[data-demo-phone-shell]');
 	const demoPhoneFrame = document.querySelector('[data-demo-phone-frame]');
+	const hourlyPreviewFrame = document.querySelector('[data-demo-hourly-frame]');
+	const demoFrames = Array.from(document.querySelectorAll('[data-demo-frame]')).filter(
+		(frame): frame is HTMLIFrameElement => frame instanceof HTMLIFrameElement,
+	);
+
 	if (demoPhoneShell && demoPhoneFrame instanceof HTMLIFrameElement) {
 		const root = document.documentElement;
 		const body = document.body;
@@ -356,6 +434,15 @@ import Layout from '../layouts/Layout.astro';
 			(event) => {
 				if (event.origin !== demoFrameOrigin) return;
 				if (!event.data || event.data.source !== 'weatherie-demo') return;
+				if (
+					event.data.type === 'content-height' &&
+					hourlyPreviewFrame instanceof HTMLIFrameElement
+				) {
+					const nextHeight = Number(event.data.height);
+					if (Number.isFinite(nextHeight) && nextHeight > 0) {
+						hourlyPreviewFrame.style.height = `${Math.ceil(nextHeight)}px`;
+					}
+				}
 				if (event.data.type === 'interaction-start') {
 					lockPageScroll();
 				}
@@ -432,22 +519,24 @@ import Layout from '../layouts/Layout.astro';
 		);
 	}
 
-	if (demoPhoneFrame instanceof HTMLIFrameElement) {
-		const baseSrc = demoPhoneFrame.dataset.baseSrc || demoPhoneFrame.getAttribute('src') || '/demo/index.html';
+	if (demoFrames.length > 0) {
 		const cacheKey = 'weatherie-demo-location';
 
-		const applyLocationToFrame = (location) => {
-			const url = new URL(baseSrc, window.location.origin);
-			if (location?.latitude != null && location?.longitude != null) {
-				url.searchParams.set('lat', String(location.latitude));
-				url.searchParams.set('lon', String(location.longitude));
-				if (location.city) url.searchParams.set('city', location.city);
-				if (location.country) url.searchParams.set('country', location.country);
-			}
-			const nextSrc = `${url.pathname}${url.search}`;
-			if (demoPhoneFrame.getAttribute('src') !== nextSrc) {
-				demoPhoneFrame.setAttribute('src', nextSrc);
-			}
+		const applyLocationToFrames = (location) => {
+			demoFrames.forEach((frame) => {
+				const baseSrc = frame.dataset.baseSrc || frame.getAttribute('src') || '/demo/index.html';
+				const url = new URL(baseSrc, window.location.origin);
+				if (location?.latitude != null && location?.longitude != null) {
+					url.searchParams.set('lat', String(location.latitude));
+					url.searchParams.set('lon', String(location.longitude));
+					if (location.city) url.searchParams.set('city', location.city);
+					if (location.country) url.searchParams.set('country', location.country);
+				}
+				const nextSrc = `${url.pathname}${url.search}`;
+				if (frame.getAttribute('src') !== nextSrc) {
+					frame.setAttribute('src', nextSrc);
+				}
+			});
 		};
 
 		const loadCachedLocation = () => {
@@ -487,7 +576,7 @@ import Layout from '../layouts/Layout.astro';
 
 		const cachedLocation = loadCachedLocation();
 		if (cachedLocation) {
-			applyLocationToFrame(cachedLocation);
+			applyLocationToFrames(cachedLocation);
 		}
 
 		if (navigator.geolocation) {
@@ -516,13 +605,13 @@ import Layout from '../layouts/Layout.astro';
 					} catch {}
 
 					saveCachedLocation(location);
-					applyLocationToFrame(location);
+					applyLocationToFrames(location);
 				},
 				async () => {
 					const fallbackLocation = await fetchApproximateLocation();
 					if (fallbackLocation) {
 						saveCachedLocation(fallbackLocation);
-						applyLocationToFrame(fallbackLocation);
+						applyLocationToFrames(fallbackLocation);
 					}
 				},
 				{
@@ -535,7 +624,7 @@ import Layout from '../layouts/Layout.astro';
 			fetchApproximateLocation().then((fallbackLocation) => {
 				if (fallbackLocation) {
 					saveCachedLocation(fallbackLocation);
-					applyLocationToFrame(fallbackLocation);
+					applyLocationToFrames(fallbackLocation);
 				}
 			});
 		}
