@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout 
+<Layout
 	title="Weatherie — Aesthetic Weather & Custom Theme Packs"
 	description="Experience weather through art. Choose from curated theme packs like oil paintings and abstract art, or create your own personalized weather experience."
 >
@@ -24,7 +24,6 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 			<div class="hidden md:flex gap-10 font-bold text-slate-500 text-sm uppercase tracking-widest">
 				<a href="#features" class="hover:text-sky-500 transition-colors">Features</a>
-				<a href="#overview" class="hover:text-sky-500 transition-colors">Overview</a>
 				<a href="#themes" class="hover:text-sky-500 transition-colors">Themes</a>
 			</div>
 			<a href="#download" class="bg-slate-900 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-slate-800 transition-all active:scale-95 shadow-lg shadow-slate-200">
@@ -50,7 +49,7 @@ import Layout from '../layouts/Layout.astro';
 				<div class="flex justify-center pb-3">
 					<div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-slate-500 shadow-sm backdrop-blur">
 						<span class="block h-2 w-2 rounded-full bg-sky-400"></span>
-						Full App Preview
+						App Preview
 					</div>
 				</div>
 				<!-- Mockup Group -->
@@ -61,7 +60,7 @@ import Layout from '../layouts/Layout.astro';
                                         <div class="relative group" data-demo-phone-shell>
                                                 <!-- High-end Glow -->
                                                 <div class="absolute -inset-4 bg-gradient-to-r from-sky-500/20 to-violet-500/20 rounded-[4rem] blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-700"></div>
-                                                
+
                                                 <!-- Realistic Phone Frame (iPhone 15 Pro style) -->
                                                 <div class="relative bg-[#1a1a1a] p-[10px] rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] border-[1px] border-white/10 ring-1 ring-black ring-inset">
                                                         <!-- Side Buttons -->
@@ -71,7 +70,7 @@ import Layout from '../layouts/Layout.astro';
 
                                                         <!-- Inner Bezel -->
                                                         <div class="w-[280px] md:w-[310px] aspect-[9/19.5] bg-black rounded-[2.8rem] overflow-hidden relative shadow-inner ring-1 ring-white/5">
-                                                                
+
                                                                 <!-- Dynamic Island -->
                                                                 <div class="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-20 flex items-center justify-end px-3 gap-1.5">
                                                                         <div class="w-1 h-1 bg-sky-500/40 rounded-full"></div>
@@ -98,106 +97,116 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 			</div>
 
-			<div class="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 px-3 sm:px-6 lg:px-8">
-				<section id="features" class="mx-auto max-w-[90rem]">
-					<div class="relative overflow-hidden rounded-[3rem] border border-slate-200 bg-slate-950 shadow-[0_40px_120px_-40px_rgba(15,23,42,0.55)]">
+			<div class="mx-auto max-w-3xl space-y-4 pt-4 text-center">
+				<div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-slate-500 shadow-sm backdrop-blur">
+					<span class="block h-2 w-2 rounded-full bg-sky-400"></span>
+					Features
+				</div>
+				<h2 class="text-4xl font-black text-slate-900 md:text-6xl font-['Outfit'] uppercase tracking-tight">
+					Core Features
+				</h2>
+				<p class="text-lg font-medium leading-relaxed text-slate-500">
+					A closer look at the widgets and theme systems that shape the app.
+				</p>
+			</div>
+
+			<section id="features" class="w-full">
+				<div class="grid grid-cols-1 gap-6 md:grid-cols-4 md:auto-rows-[minmax(14rem,auto)]">
+					<div class="relative overflow-hidden rounded-[3rem] border border-slate-200 bg-slate-950 p-6 text-white shadow-[0_40px_120px_-40px_rgba(15,23,42,0.55)] md:col-span-4 md:p-8">
 						<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.26),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(20,184,166,0.2),_transparent_36%),linear-gradient(135deg,_rgba(15,23,42,0.98),_rgba(2,6,23,0.92))]"></div>
-						<div class="relative grid gap-8 lg:grid-cols-[minmax(20rem,0.58fr)_minmax(0,1.42fr)] p-5 sm:p-8 lg:p-10 xl:p-12">
-							<div class="space-y-6 text-left lg:py-8">
+						<div class="relative z-10 grid gap-6 lg:grid-cols-[minmax(18rem,0.78fr)_minmax(0,1fr)] lg:items-start">
+							<div class="space-y-5 text-left lg:py-4">
 								<div class="space-y-4">
-									<h2 class="max-w-lg text-4xl font-black leading-[0.95] text-white md:text-6xl font-['Outfit'] uppercase tracking-tight">
-										A Closer Look at the Hourly Forecast
-									</h2>
-									<p class="max-w-xl text-base leading-relaxed text-slate-300 md:text-lg">
-										This view is dense on purpose: it lets you scan the next hours quickly, then scroll across the timeline for the deeper detail.
+									<div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.24em] text-white/60">
+										<span class="block h-2 w-2 rounded-full bg-sky-400"></span>
+										Live Widget
+									</div>
+									<h3 class="text-3xl font-black leading-[0.95] text-white md:text-5xl font-['Outfit'] uppercase tracking-tight">
+										Hourly Forecast
+									</h3>
+									<p class="max-w-lg text-base leading-relaxed text-slate-300 md:text-lg">
+										Turn rows on or off, scroll through the next hours, and keep the layout you actually use.
 									</p>
 								</div>
 								<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
 									<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4">
-										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Controls</div>
-										<div class="mt-2 text-lg font-black text-white font-['Outfit']">Live toggles</div>
-										<p class="mt-2 text-sm leading-relaxed text-slate-300">Temperature, rain, humidity, wind, and cloud detail can all be emphasized on demand.</p>
+										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Toggles</div>
+										<div class="mt-2 text-lg font-black text-white font-['Outfit']">Show what matters</div>
+										<p class="mt-2 text-sm leading-relaxed text-slate-300">Pick the rows you want to keep in view.</p>
 									</div>
 									<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4">
-										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Timeline</div>
-										<div class="mt-2 text-lg font-black text-white font-['Outfit']">Scrollable hours</div>
-										<p class="mt-2 text-sm leading-relaxed text-slate-300">The widget keeps its native horizontal browsing instead of compressing every column into a static preview.</p>
+										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Memory</div>
+										<div class="mt-2 text-lg font-black text-white font-['Outfit']">Keeps your picks</div>
+										<p class="mt-2 text-sm leading-relaxed text-slate-300">Your row choices stay in place for the next visit.</p>
 									</div>
 								</div>
 							</div>
-							<div class="relative">
+							<div class="relative flex items-start justify-center lg:justify-end">
 								<div class="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-sky-500/20 via-teal-400/15 to-transparent blur-3xl"></div>
-								<div class="relative overflow-hidden rounded-[2.4rem] border border-white/10 bg-slate-900/75 shadow-2xl backdrop-blur-sm">
-									<div class="flex items-center justify-between border-b border-white/10 px-5 py-3">
-										<div class="flex items-center gap-2">
-											<span class="h-2.5 w-2.5 rounded-full bg-rose-400/85"></span>
-											<span class="h-2.5 w-2.5 rounded-full bg-amber-300/85"></span>
-											<span class="h-2.5 w-2.5 rounded-full bg-emerald-300/85"></span>
-										</div>
-										<div class="text-[10px] font-black uppercase tracking-[0.28em] text-white/45">Interactive Preview</div>
-									</div>
-									<iframe
-										src="/demo/index.html?scene=hourly&renderer=canvaskit&v=20260314d"
-										data-demo-frame
-										data-demo-hourly-frame
-										data-base-src="/demo/index.html?scene=hourly&renderer=canvaskit&v=20260314d"
-										class="block h-[25rem] w-full border-none transition-[height] duration-300 ease-out sm:h-[31rem] lg:h-[38rem] xl:h-[42rem]"
-										scrolling="no"
-										title="Hourly forecast interactive preview"
-									></iframe>
-								</div>
+								<iframe
+									src="/demo/index.html?scene=hourly&renderer=canvaskit&v=20260314d"
+									data-demo-frame
+									data-demo-hourly-frame
+									data-base-src="/demo/index.html?scene=hourly&renderer=canvaskit&v=20260314d"
+									class="relative block h-[25rem] w-full max-w-[23rem] rounded-[2.2rem] border-none shadow-2xl transition-[height] duration-300 ease-out sm:max-w-[28rem] sm:h-[31rem] lg:max-w-[32rem] lg:h-[38rem]"
+									scrolling="no"
+									title="Hourly forecast interactive preview"
+								></iframe>
 							</div>
 						</div>
 					</div>
-				</section>
-			</div>
-		</header>
 
-		<!-- Bento Grid Overview -->
-		<section id="overview" class="py-12">
-			<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-auto md:h-[800px]">
-				<!-- Main Large Card -->
-				<div class="md:col-span-2 md:row-span-2 bg-white rounded-[3rem] p-10 border border-slate-100 shadow-sm flex flex-col justify-between group overflow-hidden relative">
-					<div class="absolute top-0 right-0 w-64 h-64 bg-sky-100 rounded-full blur-[100px] -mr-32 -mt-32 transition-transform group-hover:scale-150"></div>
-					<div class="relative z-10">
-						<h3 class="text-3xl font-black text-slate-900 font-['Outfit'] mb-4">Curated Art Packs</h3>
-						<p class="text-slate-500 font-medium max-w-xs leading-relaxed">Expertly selected color palettes and styles that shift with the time of day and humidity.</p>
+					<div class="rounded-[3rem] bg-white p-8 border border-slate-100 shadow-sm flex flex-col justify-between relative overflow-hidden group md:col-span-2">
+						<div class="absolute top-0 right-0 h-56 w-56 rounded-full bg-sky-100 blur-[100px] transition-transform group-hover:scale-125"></div>
+						<div class="relative z-10">
+							<div class="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400">Theme Sources</div>
+							<h3 class="mt-3 text-3xl font-black text-slate-900 font-['Outfit']">Built-In, Saved, and Catalog</h3>
+							<p class="mt-3 max-w-md text-slate-500 font-medium leading-relaxed">
+								The app loads bundled art packs first, then mixes in local installs, community themes, and purchasable packs from the catalog.
+							</p>
+						</div>
+						<div class="relative z-10 mt-8 flex flex-wrap gap-3">
+							<span class="rounded-full bg-slate-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-slate-600">Built-In</span>
+							<span class="rounded-full bg-sky-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-sky-700">Saved</span>
+							<span class="rounded-full bg-teal-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-teal-700">Community</span>
+							<span class="rounded-full bg-amber-50 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-amber-700">Purchased</span>
+						</div>
 					</div>
-					<div class="relative z-10 mt-8 aspect-video rounded-2xl bg-slate-900 overflow-hidden shadow-2xl">
-						<div class="absolute inset-0 bg-gradient-to-tr from-sky-400 via-teal-400 to-orange-300 opacity-80"></div>
-						<div class="absolute inset-0 flex items-center justify-center">
-							<span class="text-white font-black text-4xl italic opacity-20">ABSTRACT FLOW</span>
+
+					<div class="rounded-[3rem] bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-white flex flex-col justify-between relative overflow-hidden group">
+						<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=900')] opacity-20 grayscale transition-all duration-700 group-hover:grayscale-0"></div>
+						<div class="relative z-10">
+							<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Custom Packs</div>
+							<h3 class="mt-3 text-3xl font-black font-['Outfit']">Use Your Own Art</h3>
+							<p class="mt-3 text-slate-300 font-medium leading-relaxed">
+								Custom themes save your own images, generate a manifest, and sit alongside the bundled packs.
+							</p>
+						</div>
+						<div class="relative z-10 mt-6 inline-flex self-start rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-white/75">
+						+ Create Theme
+						</div>
+					</div>
+
+					<div class="rounded-[3rem] bg-teal-500 p-8 text-white flex flex-col justify-between space-y-6 overflow-hidden relative">
+						<div>
+							<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/70">Files</div>
+							<div class="mt-3 text-4xl font-black font-['Outfit']">ZIP</div>
+							<p class="mt-4 text-sm font-medium leading-relaxed text-teal-50/90">
+								Theme packs can be imported into the app, then exported back out as files for sharing or backup.
+							</p>
+						</div>
+						<div class="flex gap-2">
+							<div class="h-9 w-9 rounded-xl bg-white/18"></div>
+							<div class="h-9 w-9 rounded-xl bg-white/14"></div>
+							<div class="h-9 w-9 rounded-xl bg-white/10"></div>
+						</div>
+						<div class="inline-flex self-start rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-white/80">
+							Import + Export
 						</div>
 					</div>
 				</div>
-
-				<!-- Secondary Cards -->
-				<div class="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 rounded-[3rem] p-10 text-white flex flex-col justify-between relative overflow-hidden group">
-					<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=800')] opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700"></div>
-					<div class="relative z-10">
-						<h3 class="text-3xl font-black font-['Outfit'] mb-2">Import Your Life</h3>
-						<p class="text-slate-400 font-medium">Set your own photos as the backdrop for your weather stories.</p>
-					</div>
-					<button class="relative z-10 self-start px-6 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 font-bold text-sm transition-all">
-						Learn How
-					</button>
-				</div>
-
-				<!-- Small Square Cards -->
-				<div class="bg-teal-500 rounded-[3rem] p-8 text-white flex flex-col items-center justify-center text-center space-y-4">
-					<div class="text-4xl font-bold font-['Outfit']">100+</div>
-					<p class="text-sm font-bold uppercase tracking-widest opacity-80 leading-tight">Theme Packs<br/>Available</p>
-				</div>
-
-				<div class="bg-white rounded-[3rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-center space-y-4 overflow-hidden group">
-					<div class="flex gap-2 mb-2">
-						{[1,2,3].map(() => <div class="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-sky-100 transition-colors"></div>)}
-					</div>
-					<p class="text-sm font-bold text-slate-800">Community Packages</p>
-					<p class="text-xs text-slate-500 font-medium">Shared by creators from over 50 countries.</p>
-				</div>
-			</div>
-		</section>
+			</section>
+		</header>
 
 		<!-- Themes Carousel Section -->
 		<section id="themes" class="py-12 overflow-hidden">
@@ -239,72 +248,14 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 		</section>
 
-		<!-- Features Restructured Grid -->
-		<section class="py-12 border-t border-slate-100">
-			<div class="max-w-4xl mb-12">
-				<h2 class="text-4xl font-black text-slate-900 font-['Outfit'] leading-tight mb-4 uppercase">More Live Components</h2>
-				<p class="text-slate-500 font-medium leading-relaxed">Focused previews for the rest of the surface area, so visitors can get a sense of the app’s depth without loading a second full experience.</p>
-			</div>
-
-			<div class="space-y-12">
-				{[
-					{ 
-						title: "Dynamic Radar", 
-						desc: "A live radar-style panel for tracking weather systems, with the full interactive map reserved for the app itself.", 
-						visual: "from-sky-500/20 via-cyan-500/15 to-slate-900/40",
-						scene: "radar",
-						interactive: false
-					},
-					{ 
-						title: "Ten-Day Rhythm", 
-						desc: "A quick scan of the week ahead, with conditions and temperature swings presented as a clean daily strip.", 
-						visual: "from-violet-500/20 via-indigo-500/10 to-slate-950/50",
-						scene: "daily",
-						interactive: false
-					}
-				].map((feature) => (
-					<div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-x-16 gap-y-6 items-start border-b border-slate-50 pb-12 last:border-0 last:pb-0">
-						<h4 class="order-1 md:col-start-1 md:row-start-1 text-2xl font-black text-slate-800 font-['Outfit'] uppercase tracking-tight">
-							{feature.title}
-						</h4>
-
-						<div class="order-2 md:col-start-2 md:row-start-1 md:row-span-2">
-							<div class="relative h-56 md:h-64 rounded-[2.5rem] border border-slate-200 overflow-hidden bg-slate-950 shadow-xl shadow-slate-200/60">
-								<div class={`absolute inset-0 bg-gradient-to-br ${feature.visual}`}></div>
-								<div class="absolute inset-[1px] rounded-[2.35rem] overflow-hidden bg-slate-950/70 backdrop-blur-sm">
-									<iframe
-										src={`/demo/index.html?scene=${feature.scene}`}
-										data-demo-frame
-										data-base-src={`/demo/index.html?scene=${feature.scene}`}
-										loading="lazy"
-										class={`block w-full h-full border-none ${feature.interactive ? 'pointer-events-auto' : 'pointer-events-none'}`}
-										scrolling="no"
-										title={`${feature.title} widget preview`}
-									></iframe>
-								</div>
-								<div class="absolute inset-0 rounded-[2.5rem] ring-1 ring-white/10 pointer-events-none"></div>
-								<div class="absolute left-4 top-4 px-3 py-1 rounded-full bg-black/35 text-[10px] font-black uppercase tracking-[0.25em] text-white/70 pointer-events-none">
-									Live Widget
-								</div>
-							</div>
-						</div>
-
-						<p class="order-3 md:col-start-1 md:row-start-2 text-slate-500 font-medium leading-relaxed text-lg">
-							{feature.desc}
-						</p>
-					</div>
-				))}
-			</div>
-		</section>
-
 		<!-- CTA -->
 		<section id="download" class="py-12">
 			<div class="bg-gradient-to-tr from-sky-600 via-sky-500 to-teal-400 rounded-[4rem] p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-sky-200">
 				<div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-				
+
 				<div class="relative z-10 max-w-2xl mx-auto space-y-10">
 					<h2 class="text-4xl md:text-6xl font-black font-['Outfit'] leading-tight italic">Ready to see the weather differently?</h2>
-					
+
 					<div class="flex flex-col gap-8 items-center">
 						<div class="flex flex-wrap gap-4 justify-center">
 							<a href="#" class="bg-black text-white w-56 py-4 rounded-2xl flex items-center justify-center gap-4 transition-all hover:scale-105 hover:shadow-xl active:scale-95 border border-white/10">
@@ -314,7 +265,7 @@ import Layout from '../layouts/Layout.astro';
 									<div class="text-xl font-bold leading-none mt-1">App Store</div>
 								</div>
 							</a>
-							
+
 							<a href="#" class="bg-black text-white w-56 py-4 rounded-2xl flex items-center justify-center gap-4 transition-all hover:scale-105 hover:shadow-xl active:scale-95 border border-white/10">
 								<svg class="w-8 h-8" viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-10.3 18-28.5-1.2-40.8zM325.3 277.7l60.1 60.1L104.6 499l220.7-221.3z"/></svg>
 								<div class="text-left">
@@ -356,7 +307,7 @@ import Layout from '../layouts/Layout.astro';
 		carousel.addEventListener('scroll', () => {
 			const scrollLeft = carousel.scrollLeft;
 			const carouselCenter = scrollLeft + carousel.clientWidth / 2;
-			
+
 			Array.from(carousel.children).forEach((child) => {
 				const card = child as HTMLElement;
 				const cardCenter = card.offsetLeft + card.clientWidth / 2;

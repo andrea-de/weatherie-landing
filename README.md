@@ -1,43 +1,56 @@
-# Astro Starter Kit: Minimal
+# Weatherie Landing
+
+This repo contains the Astro landing site for Weatherie.
+
+It is a static marketing site with:
+- the main landing page in `src/pages/index.astro`
+- a locally embedded Flutter demo served from `public/demo`
+- a build script that regenerates that demo from the sibling Flutter app
+
+## Local Development
+
+From `landing/`:
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Astro runs at `http://localhost:4321`.
 
-## 🚀 Project Structure
+## Flutter Demo Workflow
 
-Inside of your Astro project, you'll see the following folders and files:
+The landing page embeds a generated Flutter web demo. That demo is not source-authored in this repo; it is built from the sibling Flutter project at `../flutter`.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+To rebuild and sync the demo bundle:
+
+```sh
+npm run build:demo
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+That runs:
+- `../flutter/scripts/build_demo_web.sh --base-href /demo/`
+- `rsync` into `public/demo/`
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Build Commands
 
-Any static assets, like images, can be placed in the `public/` directory.
+```sh
+npm run build
+```
 
-## 🧞 Commands
+Builds only the Astro site.
 
-All commands are run from the root of the project, from a terminal:
+```sh
+npm run build:deploy
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Builds the Flutter demo first, then builds the Astro site.
 
-## 👀 Want to learn more?
+Use `build:deploy` for production output when the embedded demo has changed.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Repo Notes
+
+- `public/demo/` is generated from the sibling Flutter repo.
+- If this landing repo is deployed by itself on Vercel, `public/demo/` must be present in the repo or the `/demo/...` embeds will 404.
+- This repo expects the Flutter app repo to exist at `../flutter` if you use `build:demo` or `build:deploy`.
+- The landing page currently uses one full app preview plus a generated hourly demo scene from Flutter.
