@@ -1,5 +1,31 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const openWeatherApiKey = (
+	import.meta.env.OPENWEATHERMAP_API_KEY ??
+	import.meta.env.PUBLIC_OPENWEATHERMAP_API_KEY ??
+	''
+).trim();
+
+const buildDemoSrc = (params = {}) => {
+	const url = new URL('https://weatherie.local/demo/index.html');
+	for (const [key, value] of Object.entries(params)) {
+		if (value != null && String(value).trim() !== '') {
+			url.searchParams.set(key, String(value));
+		}
+	}
+	if (openWeatherApiKey) {
+		url.searchParams.set('owmKey', openWeatherApiKey);
+	}
+	return `${url.pathname}${url.search}`;
+};
+
+const fullDemoSrc = buildDemoSrc();
+const hourlyDemoSrc = buildDemoSrc({
+	scene: 'hourly',
+	renderer: 'canvaskit',
+	v: '20260314d',
+});
 ---
 
 <Layout
@@ -81,7 +107,7 @@ import Layout from '../layouts/Layout.astro';
                                                                 <div class="w-full h-full relative z-10 overflow-hidden" style="overscroll-behavior: contain;">
                                                                         <div class="absolute inset-0 overflow-hidden">
                                                                                 <div class="w-[125%] h-[125%] origin-top-left scale-[0.8]" style="overscroll-behavior: contain;">
-                                                                                        <iframe src="/demo/index.html" data-demo-frame data-demo-phone-frame data-base-src="/demo/index.html" class="block w-full h-full border-none" style="overscroll-behavior: contain;" allow="geolocation" scrolling="no" title="Weatherie Interactive Demo"></iframe>
+                                                                                        <iframe src={fullDemoSrc} data-demo-frame data-demo-phone-frame data-base-src={fullDemoSrc} class="block w-full h-full border-none" style="overscroll-behavior: contain;" allow="geolocation" scrolling="no" title="Weatherie Interactive Demo"></iframe>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -144,10 +170,10 @@ import Layout from '../layouts/Layout.astro';
 							<div class="relative flex items-start justify-center lg:justify-end">
 								<div class="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-sky-500/20 via-teal-400/15 to-transparent blur-3xl"></div>
 								<iframe
-									src="/demo/index.html?scene=hourly&renderer=canvaskit&v=20260314d"
+									src={hourlyDemoSrc}
 									data-demo-frame
 									data-demo-hourly-frame
-									data-base-src="/demo/index.html?scene=hourly&renderer=canvaskit&v=20260314d"
+									data-base-src={hourlyDemoSrc}
 									class="relative block h-[25rem] w-full max-w-[23rem] rounded-[2.2rem] border-none shadow-2xl transition-[height] duration-300 ease-out sm:max-w-[28rem] sm:h-[31rem] lg:max-w-[32rem] lg:h-[38rem]"
 									scrolling="no"
 									title="Hourly forecast interactive preview"
