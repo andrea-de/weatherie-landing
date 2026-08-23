@@ -70,3 +70,18 @@ Use `build:deploy` for production output when the embedded demo has changed.
 - If this landing repo is deployed by itself on Vercel, `public/demo/` must be present in the repo or the `/demo/...` embeds will 404.
 - This repo expects the Flutter app repo to exist at `../flutter` if you use `build:demo` or `build:deploy`.
 - The landing page currently uses one full app preview plus a generated hourly demo scene from Flutter.
+
+
+## Release coordination
+
+This site is one half of the Weatherie release estate. The other half — the
+Flutter app, backend, and the release plan/checklists that govern both repos —
+lives in [`andrea-de/weatherie`](https://github.com/andrea-de/weatherie) under
+`docs/release/`. Items that must exist in BOTH places (privacy policy URL,
+store links, app-ads.txt, disclosures) are tracked there, Phase 4.
+
+Pending here (see app repo `docs/release/CHECKLIST.md` Phase 4):
+- real domain + deploy target (Cloudflare Pages planned)
+- real privacy/terms content in `src/pages/privacy.astro` / `terms.astro`
+- `public/app-ads.txt` with the AdMob publisher id
+- store badges/links once the Play listing exists

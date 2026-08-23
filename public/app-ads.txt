@@ -1,0 +1,3 @@
+# Placeholder — replaced with the real AdMob line once the AdMob app exists.
+# Required format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# Tracked in andrea-de/weatherie docs/release/CHECKLIST.md (Phase 4).
