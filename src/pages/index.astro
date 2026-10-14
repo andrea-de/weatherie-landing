@@ -322,7 +322,7 @@ const shots = [
 							</div>
 							<div class="flex flex-1 flex-col p-6">
 								<h3 class="mb-2 font-['Outfit'] text-xl font-black text-slate-50">More on the way</h3>
-								<p class="text-sm font-medium leading-relaxed text-slate-400">New themes land regularly, and the ones you already have keep growing new scenes.</p>
+								<p class="text-sm font-medium leading-relaxed text-slate-400">New themes land in the store regularly, so the collection you can choose from keeps getting bigger.</p>
 							</div>
 						</div>
 					</div>
@@ -468,34 +468,34 @@ const shots = [
 					<div class="absolute right-0 top-0 h-56 w-56 rounded-full bg-sky-500/18 blur-[110px] transition-transform group-hover:scale-125"></div>
 					<div class="absolute bottom-0 left-10 h-40 w-40 rounded-full bg-violet-500/12 blur-[90px]"></div>
 					<div class="relative z-10">
-						<div class="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400">Theme Ecosystem</div>
-						<h3 class="mt-3 font-['Outfit'] text-2xl font-black text-slate-50 sm:text-3xl">Wear a pack, or build your own</h3>
+						<div class="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400">Your Library</div>
+						<h3 class="mt-3 font-['Outfit'] text-2xl font-black text-slate-50 sm:text-3xl">A theme is a whole world, not a wallpaper</h3>
 						<p class="mt-3 max-w-xl font-medium leading-relaxed text-slate-300">
-							Start with the themes in the store, then make your own from your own pictures — and pass packs around as files. It all lives in the same library.
+							Every theme carries a scene for each kind of weather, day and night — clear skies, cloud, rain, snow, storms and mist. Browse them, wear one, and switch whenever the mood changes.
 						</p>
 					</div>
 					<div class="relative z-10 mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
-						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-white/6 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-slate-200">Store Packs</span>
-						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-sky-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-sky-200">Custom Themes</span>
-						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-teal-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-teal-200">Import / Export</span>
+						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-white/6 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-slate-200">Day &amp; Night</span>
+						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-sky-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-sky-200">Every Condition</span>
+						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-teal-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-teal-200">Switch Anytime</span>
 					</div>
 					<div class="relative z-10 mt-8 grid grid-cols-2 gap-3">
 						<div class="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
 							<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Library</div>
-							<div class="mt-2 text-base font-black text-white font-['Outfit']">One place for every pack</div>
+							<div class="mt-2 text-base font-black text-white font-['Outfit']">Every theme in one place</div>
 						</div>
 						<div class="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
-							<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Builder</div>
-							<div class="mt-2 text-base font-black text-white font-['Outfit']">Your own pictures</div>
+							<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Scenes</div>
+							<div class="mt-2 text-base font-black text-white font-['Outfit']">A picture for each sky</div>
 						</div>
 						<div class="col-span-2 rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
-							<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Sharing</div>
-							<div class="mt-2 text-base font-black text-white font-['Outfit']">Pass packs around as files</div>
+							<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Built in</div>
+							<div class="mt-2 text-base font-black text-white font-['Outfit']">Open Road, ready on first launch</div>
 						</div>
 					</div>
 				</div>
 
-				<div class="group relative flex flex-col justify-between overflow-hidden rounded-[3rem] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-left text-white">
+				<div class="group relative flex flex-col justify-between overflow-hidden rounded-[3rem] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-left text-white md:col-span-2">
 					<div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.18),_transparent_34%),linear-gradient(180deg,_rgba(15,23,42,0),_rgba(15,23,42,0.2))]"></div>
 					<div class="relative z-10">
 						<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Home Screen</div>
@@ -504,48 +504,31 @@ const shots = [
 							Keep the forecast and the artwork you picked on your home screen, without opening the app.
 						</p>
 					</div>
-					<div class="relative z-10 mt-8 grid grid-cols-[1fr_1.35fr] gap-3">
+					<!-- Three shapes, loosely the square / tall / wide families that
+					     actually ship. Abstract on purpose — these are not renders. -->
+					<div class="relative z-10 mt-8 grid grid-cols-[0.8fr_0.8fr_1.4fr] items-end gap-4">
 						<div class="rounded-[1.5rem] border border-white/10 bg-white/6 p-4">
-							<div class="h-14 rounded-xl bg-white/10"></div>
-							<div class="mt-3 h-2 rounded-full bg-white/20"></div>
-							<div class="mt-2 h-2 w-2/3 rounded-full bg-white/10"></div>
+							<div class="aspect-square rounded-xl bg-gradient-to-br from-sky-400/25 to-violet-400/15"></div>
+							<div class="mt-3 h-2 rounded-full bg-white/25"></div>
+							<div class="mt-2 h-2 w-2/3 rounded-full bg-white/12"></div>
 						</div>
 						<div class="rounded-[1.5rem] border border-white/10 bg-white/6 p-4">
-							<div class="grid grid-cols-2 gap-2">
-								<div class="h-10 rounded-xl bg-white/10"></div>
-								<div class="h-10 rounded-xl bg-white/10"></div>
-								<div class="col-span-2 h-12 rounded-xl bg-white/14"></div>
+							<div class="aspect-[3/4] rounded-xl bg-gradient-to-br from-amber-300/25 to-rose-400/15"></div>
+							<div class="mt-3 h-2 rounded-full bg-white/25"></div>
+							<div class="mt-2 h-2 w-1/2 rounded-full bg-white/12"></div>
+						</div>
+						<div class="rounded-[1.5rem] border border-white/10 bg-white/6 p-4">
+							<div class="aspect-[2/1] rounded-xl bg-gradient-to-br from-teal-300/25 to-sky-500/15"></div>
+							<div class="mt-3 grid grid-cols-4 gap-2">
+								<div class="h-8 rounded-lg bg-white/12"></div>
+								<div class="h-8 rounded-lg bg-white/12"></div>
+								<div class="h-8 rounded-lg bg-white/12"></div>
+								<div class="h-8 rounded-lg bg-white/12"></div>
 							</div>
 						</div>
 					</div>
 					<div class="relative z-10 mt-6 inline-flex self-end rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-white/75 sm:self-start">
-						Two sizes · iOS and Android
-					</div>
-				</div>
-
-				<div class="relative flex flex-col justify-between space-y-6 overflow-hidden rounded-[3rem] border border-amber-300/12 bg-gradient-to-br from-[#39231a] via-[#6a3d2a] to-slate-950 p-8 text-left text-white">
-					<div>
-						<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/70">Original Extra</div>
-						<div class="mt-3 font-['Outfit'] text-4xl font-black">Weather Sudoku</div>
-						<p class="mt-4 text-sm font-medium leading-relaxed text-orange-50/80">
-							A side game, tucked into a tile, for when the forecast is boring but the sky isn't.
-						</p>
-					</div>
-					<div class="relative z-10 flex justify-center sm:justify-start">
-						<div class="grid w-[11rem] grid-cols-3 gap-2">
-							<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
-							<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
-							<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
-							<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
-							<div class="aspect-square rounded-xl border border-amber-200/30 bg-amber-100/18 shadow-[0_0_0_1px_rgba(255,237,213,0.08)_inset]"></div>
-							<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
-							<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
-							<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
-							<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
-						</div>
-					</div>
-					<div class="inline-flex self-start rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-white/80">
-						Playful by design
+						Several sizes · iOS and Android
 					</div>
 				</div>
 			</div>
