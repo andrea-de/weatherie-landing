@@ -1,3 +1,11 @@
-# Placeholder — replaced with the real AdMob line once the AdMob app exists.
-# Required format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# Intentionally declares no sellers.
+#
+# Weatherie v1 serves in-house promotions for our own apps only. There is no
+# third-party ad network, no advertising identifier and no cross-app tracking,
+# so there is no authorised seller to list here.
+#
+# google_mobile_ads was parked on 2026-10-12 (see andrea-de/weatherie
+# pubspec.yaml and parked/admob/). If AdMob is ever unparked, the real line
+# goes here:
+#   google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
 # Tracked in andrea-de/weatherie docs/release/CHECKLIST.md (Phase 4).

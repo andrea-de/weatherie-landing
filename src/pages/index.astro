@@ -1,6 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// ---------------------------------------------------------------------------
+// STORE LINKS — switch the badges on by filling these in.
+// Both listings are in review; until a URL exists the buttons render as a
+// "coming soon" note instead, because a badge that 404s is worse than none.
+// Set the two strings below and the buttons appear. Nothing else to change.
+// ---------------------------------------------------------------------------
+const STORE_LINKS = {
+	appStore: '', // e.g. 'https://apps.apple.com/app/weatherie/id0000000000'
+	googlePlay: '', // e.g. 'https://play.google.com/store/apps/details?id=com.advection.weatherie'
+};
+const hasAppStore = STORE_LINKS.appStore.trim() !== '';
+const hasGooglePlay = STORE_LINKS.googlePlay.trim() !== '';
+const hasAnyStoreLink = hasAppStore || hasGooglePlay;
+
+// Promo video (public, Advection Software LLC channel).
+const PROMO_VIDEO_ID = 'E9zXkWXMWjU';
+
 const openWeatherApiKey = (
 	import.meta.env.OPENWEATHERMAP_API_KEY ??
 	import.meta.env.PUBLIC_OPENWEATHERMAP_API_KEY ??
@@ -24,13 +41,47 @@ const fullDemoSrc = buildDemoSrc();
 const hourlyDemoSrc = buildDemoSrc({
 	scene: 'hourly',
 	renderer: 'canvaskit',
-	v: '20260314d',
+	v: '20261014a',
 });
+
+// ---------------------------------------------------------------------------
+// Theme catalogue — the 11 themes live in /v1/catalog on 2026-10-14, with the
+// display names and descriptions the app itself shows. Drafts are excluded.
+// Stills are the press kit's, reused in place so the page adds no new bytes.
+// ---------------------------------------------------------------------------
+const bundledTheme = {
+	name: 'Open Road',
+	desc: 'Travel-poster landscapes — canyons, coasts, prairies and peaks — ninety places painted in every kind of weather.',
+	img: '/media/theme-open-road.jpg',
+};
+
+const themes = [
+	{ id: 'artdeco', name: 'Streamline', tier: 'free', desc: 'Travel-poster glamour from the thirties: bold geometry, chrome curves and flat saturated colour.' },
+	{ id: 'lowpoly', name: 'Facets', tier: 'free', desc: 'Wild country rebuilt from flat triangles: glaciers, canyons, fjords and dune seas.' },
+	{ id: 'papercraft', name: 'Papercraft', tier: 'free', desc: 'Landscapes cut and layered from coloured paper — bevelled edges, folded hills, soft shadows between every plane.' },
+	{ id: 'van-gogh', name: 'Impasto Fields', tier: 'paid', desc: 'Thick oil paint and swirling skies over low, quiet horizons.' },
+	{ id: 'stainedglass2', name: 'Leaded Light', tier: 'paid', desc: 'Stained glass lit from behind: pastoral days, lantern-lit nights, every pane hand-leaded.' },
+	{ id: 'artnouveau', name: 'Belle Époque', tier: 'paid', desc: 'Art nouveau panels — one figure, one craft, and flowering ornament running through every frame.' },
+	{ id: 'tinbot', name: 'Tin Traveller', tier: 'paid', desc: 'A small brass automaton alone in vast weather, with one amber lamp for company.' },
+	{ id: 'fox', name: 'Little Fox', tier: 'paid', desc: 'A small fox in a blue scarf, out in every weather there is.' },
+	{ id: 'creaturephoto', name: 'Eye Level', tier: 'paid', desc: 'Photographed lying in the grass — a wren, a stag beetle, a sand cat — with the weather at their scale.' },
+	{ id: 'paperminimal', name: 'Folded', tier: 'paid', desc: 'A different origami creature every time, folded from coloured paper under soft studio light.' },
+	{ id: 'balloonfolk', name: 'Balloon Animals', tier: 'paid', desc: 'Everything twisted from modelling balloons — the animals, the clouds, even the rain.' },
+].map((t) => ({ ...t, img: `/press/media/themes/${t.id}.jpg` }));
+
+const freeThemeCount = themes.filter((t) => t.tier === 'free').length;
+
+const shots = [
+	{ src: '/media/shot-01_today_sunny.jpg', alt: 'Weatherie today screen with the built-in Open Road theme' },
+	{ src: '/media/shot-02_forecast_cards.jpg', alt: 'Hourly strip and ten-day outlook' },
+	{ src: '/media/shot-03_detail_tiles.jpg', alt: 'Wind, UV, humidity, sunrise and sunset detail tiles' },
+	{ src: '/media/shot-04_theme_store.jpg', alt: 'The Weatherie theme store' },
+];
 ---
 
 <Layout
-	title="Weatherie — Aesthetic Weather & Custom Theme Packs"
-	description="Experience weather through art. Choose from curated theme packs like oil paintings and abstract art, or create your own personalized weather experience."
+	title="Weatherie — Thousands of ways to see the weather"
+	description="A weather app you'll want to look at. Every theme is a complete set of artwork — a scene for each kind of weather, day and night. Credits, not subscriptions."
 >
 	<!-- Decorative Background Elements -->
 	<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -50,8 +101,9 @@ const hourlyDemoSrc = buildDemoSrc({
 			</div>
 			<div class="hidden gap-10 text-sm font-bold uppercase tracking-widest text-slate-400 md:flex">
 				<a href="#preview" class="transition-colors hover:text-sky-300">Preview</a>
-				<a href="#features" class="transition-colors hover:text-sky-300">Features</a>
 				<a href="#themes" class="transition-colors hover:text-sky-300">Themes</a>
+				<a href="#features" class="transition-colors hover:text-sky-300">Features</a>
+				<a href="#pricing" class="transition-colors hover:text-sky-300">Pricing</a>
 			</div>
 			<a href="#download" class="rounded-xl border border-sky-300/10 bg-sky-400 px-5 py-2 text-sm font-bold text-slate-950 shadow-lg shadow-sky-950/40 transition-all hover:bg-sky-300 active:scale-95">
 				Get App
@@ -62,13 +114,13 @@ const hourlyDemoSrc = buildDemoSrc({
 		<header class="py-12 md:py-20 text-center space-y-12">
 			<div class="space-y-6 max-w-4xl mx-auto">
 				<div class="mb-4 inline-block rounded-full border border-sky-300/15 bg-sky-400/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-sky-200">
-					Redefining the Forecast
+					Enjoy the weather you choose
 				</div>
-				<h1 class="font-['Outfit'] text-6xl font-black leading-[0.9] tracking-tight text-slate-50 md:text-8xl">
-					Your Weather,<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-teal-500 to-violet-500">Your Canvas.</span>
+				<h1 class="font-['Outfit'] text-5xl font-black leading-[0.95] tracking-tight text-slate-50 md:text-8xl md:leading-[0.9]">
+					Thousands of ways<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-teal-500 to-violet-500">to see the weather.</span>
 				</h1>
 				<p class="mx-auto max-w-2xl text-xl font-medium leading-relaxed text-slate-300">
-					Stop looking at boring numbers. Experience the atmosphere through oil paintings, abstract art, and community-crafted theme packs.
+					Every theme is a complete set of artwork — a scene for each kind of weather, day and night. So the forecast you open each morning is a picture of the day ahead.
 				</p>
 			</div>
 
@@ -76,275 +128,150 @@ const hourlyDemoSrc = buildDemoSrc({
 				<div class="flex justify-center pb-3">
 					<div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-950/70 px-4 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-slate-300 shadow-sm backdrop-blur">
 						<span class="block h-2 w-2 rounded-full bg-sky-400"></span>
-						App Preview
+						Live in your browser
 					</div>
 				</div>
 				<!-- Mockup Group -->
 				<div class="relative z-10 flex justify-center items-end gap-4 md:gap-8">
 					<div class="hidden h-[400px] w-48 -rotate-12 translate-y-12 overflow-hidden rounded-[2.5rem] border border-white/6 bg-slate-950 shadow-2xl opacity-40 md:block">
-						<div class="h-full bg-gradient-to-b from-orange-500/25 to-rose-500/10"></div>
+						<img src="/press/media/themes/van-gogh.jpg" alt="" aria-hidden="true" loading="lazy" class="h-full w-full object-cover" />
 					</div>
-                                        <div class="relative group" data-demo-phone-shell>
-                                                <!-- High-end Glow -->
-                                                <div class="absolute -inset-4 bg-gradient-to-r from-sky-500/20 to-violet-500/20 rounded-[4rem] blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-700"></div>
+					<div class="relative group" data-demo-phone-shell>
+						<!-- High-end Glow -->
+						<div class="absolute -inset-4 bg-gradient-to-r from-sky-500/20 to-violet-500/20 rounded-[4rem] blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-700"></div>
 
-                                                <!-- Realistic Phone Frame (iPhone 15 Pro style) -->
-                                                <div class="relative bg-[#1a1a1a] p-[10px] rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] border-[1px] border-white/10 ring-1 ring-black ring-inset">
-                                                        <!-- Side Buttons -->
-                                                        <div class="absolute -left-[2px] top-24 w-[3px] h-12 bg-[#222] rounded-r-sm border-l border-white/5"></div>
-                                                        <div class="absolute -left-[2px] top-40 w-[3px] h-12 bg-[#222] rounded-r-sm border-l border-white/5"></div>
-                                                        <div class="absolute -right-[2px] top-32 w-[3px] h-20 bg-[#222] rounded-l-sm border-r border-white/5"></div>
+						<!-- Realistic Phone Frame -->
+						<div class="relative bg-[#1a1a1a] p-[10px] rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] border-[1px] border-white/10 ring-1 ring-black ring-inset">
+							<!-- Side Buttons -->
+							<div class="absolute -left-[2px] top-24 w-[3px] h-12 bg-[#222] rounded-r-sm border-l border-white/5"></div>
+							<div class="absolute -left-[2px] top-40 w-[3px] h-12 bg-[#222] rounded-r-sm border-l border-white/5"></div>
+							<div class="absolute -right-[2px] top-32 w-[3px] h-20 bg-[#222] rounded-l-sm border-r border-white/5"></div>
 
-                                                        <!-- Inner Bezel -->
-                                                        <div class="w-[280px] md:w-[310px] aspect-[9/19.5] bg-black rounded-[2.8rem] overflow-hidden relative shadow-inner ring-1 ring-white/5">
+							<!-- Inner Bezel -->
+							<div class="w-[280px] md:w-[310px] aspect-[9/19.5] bg-black rounded-[2.8rem] overflow-hidden relative shadow-inner ring-1 ring-white/5">
 
-                                                                <!-- Dynamic Island -->
-                                                                <div class="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-20 flex items-center justify-end px-3 gap-1.5">
-                                                                        <div class="w-1 h-1 bg-sky-500/40 rounded-full"></div>
-                                                                        <div class="w-2 h-2 bg-[#111] rounded-full ring-1 ring-white/5"></div>
-                                                                </div>
-
-                                                                <!-- Screen Content -->
-                                                                <div class="w-full h-full relative z-10 overflow-hidden" style="overscroll-behavior: contain;">
-                                                                        <div class="absolute inset-0 overflow-hidden">
-                                                                                <div class="w-[125%] h-[125%] origin-top-left scale-[0.8]" style="overscroll-behavior: contain;">
-                                                                                        <iframe src={fullDemoSrc} data-demo-frame data-demo-phone-frame data-base-src={fullDemoSrc} class="block w-full h-full border-none" style="overscroll-behavior: contain;" allow="geolocation" scrolling="no" title="Weatherie Interactive Demo"></iframe>
-                                                                                </div>
-                                                                        </div>
-                                                                </div>
-
-                                                                <!-- Screen Reflection -->
-                                                                <div class="absolute inset-0 pointer-events-none z-30 bg-gradient-to-tr from-transparent via-white/[0.02] to-white/[0.05]"></div>
-                                                        </div>
-                                                </div>
-                                        </div>
-					<div class="hidden h-[400px] w-48 translate-y-12 rotate-12 overflow-hidden rounded-[2.5rem] border border-white/6 bg-slate-950 shadow-2xl opacity-40 md:block">
-						<div class="h-full bg-gradient-to-b from-sky-500/25 to-violet-500/10"></div>
-					</div>
-				</div>
-			</div>
-
-			<div id="features" class="mx-auto max-w-3xl scroll-mt-28 space-y-4 pt-4 text-center">
-				<h2 class="font-['Outfit'] text-4xl font-black uppercase tracking-tight text-slate-50 md:text-6xl">
-					Features
-				</h2>
-				<p class="text-lg font-medium leading-relaxed text-slate-300">
-					A closer look at the widgets and theme systems that shape the app.
-				</p>
-			</div>
-
-			<section class="w-full">
-				<div class="grid grid-cols-1 gap-6 md:grid-cols-4 md:auto-rows-[minmax(14rem,auto)]">
-					<div class="relative overflow-hidden rounded-[3rem] border border-white/10 bg-slate-950 p-6 text-white shadow-[0_40px_120px_-40px_rgba(15,23,42,0.55)] md:col-span-4 md:p-8">
-						<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.26),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(20,184,166,0.2),_transparent_36%),linear-gradient(135deg,_rgba(15,23,42,0.98),_rgba(2,6,23,0.92))]"></div>
-						<div class="relative z-10 grid gap-6 lg:grid-cols-[minmax(18rem,0.78fr)_minmax(0,1fr)] lg:items-start">
-							<div class="space-y-5 text-left lg:py-4">
-								<div class="space-y-4">
-									<div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.24em] text-white/60">
-										<span class="block h-2 w-2 rounded-full bg-sky-400"></span>
-										Live Widget
-									</div>
-									<h3 class="text-3xl font-black leading-[0.95] text-white md:text-5xl font-['Outfit'] uppercase tracking-tight">
-										Hourly Forecast
-									</h3>
-									<p class="max-w-lg text-base leading-relaxed text-slate-300 md:text-lg">
-										Turn rows on or off, scroll through the next hours, and keep the layout you actually use.
-									</p>
+								<!-- Dynamic Island -->
+								<div class="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-20 flex items-center justify-end px-3 gap-1.5">
+									<div class="w-1 h-1 bg-sky-500/40 rounded-full"></div>
+									<div class="w-2 h-2 bg-[#111] rounded-full ring-1 ring-white/5"></div>
 								</div>
-								<div class="grid gap-3 sm:grid-cols-2">
-									<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4">
-										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Toggles</div>
-										<div class="mt-2 text-lg font-black text-white font-['Outfit']">Show what matters</div>
-										<p class="mt-2 text-sm leading-relaxed text-slate-300">Pick the rows you want to keep in view.</p>
-									</div>
-									<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4">
-										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Memory</div>
-										<div class="mt-2 text-lg font-black text-white font-['Outfit']">Keeps your picks</div>
-										<p class="mt-2 text-sm leading-relaxed text-slate-300">Your row choices stay in place for the next visit.</p>
-									</div>
-									<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4 sm:col-span-2">
-										<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Icon Guide</div>
-										<div class="mt-3 grid grid-cols-2 gap-2">
-											<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
-												<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-													<path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M21 16v5h-5" />
-													<path stroke-linecap="round" stroke-linejoin="round" d="M3 8l5-5M16 3l5 5M3 16l5 5M21 16l-5 5" />
-												</svg>
-												<span>Expand all</span>
-											</div>
-											<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
-												<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-													<path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M8 12h8M10 17h4" />
-												</svg>
-												<span>Collapse all</span>
-											</div>
-											<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
-												<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-													<path stroke-linecap="round" stroke-linejoin="round" d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0Z" />
-												</svg>
-												<span>Temperature</span>
-											</div>
-											<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
-												<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="currentColor">
-													<path d="M12 2.5C9.6 6 6 9.6 6 13.5a6 6 0 1 0 12 0c0-3.9-3.6-7.5-6-11Z" />
-												</svg>
-												<span>Precipitation</span>
-											</div>
-											<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
-												<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-													<path stroke-linecap="round" stroke-linejoin="round" d="M12 3.5C9.6 7 7 9.8 7 13a5 5 0 0 0 10 0c0-3.2-2.6-6-5-9.5Z" />
-													<path stroke-linecap="round" stroke-linejoin="round" d="M9.5 16.5c.8.7 1.7 1 2.5 1" />
-												</svg>
-												<span>Humidity</span>
-											</div>
-											<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
-												<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-													<path stroke-linecap="round" stroke-linejoin="round" d="M4 9c1.5-2 3.5-3 6-3 3.5 0 4.5 2 8 2 1 0 1.9-.2 2.7-.6" />
-													<path stroke-linecap="round" stroke-linejoin="round" d="M2 13c1.8-2 4-3 6.5-3 3.5 0 4.5 2 8 2 1.9 0 3.5-.5 5.5-1.7" />
-													<path stroke-linecap="round" stroke-linejoin="round" d="M6 17c1.2-1 2.6-1.5 4-1.5 2.4 0 3.3 1.3 5.5 1.3 1.2 0 2.4-.3 3.5-.8" />
-												</svg>
-												<span>Wind</span>
-											</div>
-											<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white col-span-2">
-												<svg class="h-4 w-4 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-													<circle cx="12" cy="12" r="4" />
-													<path stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-												</svg>
-												<span>Sun + UV</span>
-											</div>
+
+								<!-- Screen Content -->
+								<div class="w-full h-full relative z-10 overflow-hidden" style="overscroll-behavior: contain;">
+									<div class="absolute inset-0 overflow-hidden">
+										<div class="w-[125%] h-[125%] origin-top-left scale-[0.8]" style="overscroll-behavior: contain;">
+											<iframe src={fullDemoSrc} data-demo-frame data-demo-phone-frame data-base-src={fullDemoSrc} class="block w-full h-full border-none" style="overscroll-behavior: contain;" allow="geolocation" scrolling="no" title="Weatherie Interactive Demo"></iframe>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="relative flex items-start justify-center lg:justify-end">
-								<div class="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-sky-500/20 via-teal-400/15 to-transparent blur-3xl"></div>
-								<iframe
-									src={hourlyDemoSrc}
-									data-demo-frame
-									data-demo-hourly-frame
-									data-base-src={hourlyDemoSrc}
-									class="relative block h-[25rem] w-full max-w-[23rem] rounded-[2.2rem] border-none shadow-2xl transition-[height] duration-300 ease-out sm:max-w-[28rem] sm:h-[31rem] lg:max-w-[32rem] lg:h-[38rem]"
-									scrolling="no"
-									title="Hourly forecast interactive preview"
-								></iframe>
+
+								<!-- Screen Reflection -->
+								<div class="absolute inset-0 pointer-events-none z-30 bg-gradient-to-tr from-transparent via-white/[0.02] to-white/[0.05]"></div>
 							</div>
 						</div>
 					</div>
-
-					<div class="group relative flex flex-col justify-between overflow-hidden rounded-[3rem] border border-white/10 bg-slate-900/80 p-8 text-left shadow-[0_30px_90px_-40px_rgba(8,15,29,1)] backdrop-blur md:col-span-2">
-						<div class="absolute right-0 top-0 h-56 w-56 rounded-full bg-sky-500/18 blur-[110px] transition-transform group-hover:scale-125"></div>
-						<div class="absolute bottom-0 left-10 h-40 w-40 rounded-full bg-violet-500/12 blur-[90px]"></div>
-						<div class="relative z-10">
-							<div class="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400">Theme Ecosystem</div>
-							<h3 class="mt-3 font-['Outfit'] text-2xl font-black text-slate-50 sm:text-3xl">Create, collect, and share full theme packs</h3>
-							<p class="mt-3 max-w-xl font-medium leading-relaxed text-slate-300">
-								Start with official packs, build your own, share them privately, and grow into community themes without leaving the same library.
-							</p>
-						</div>
-						<div class="relative z-10 mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
-							<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-white/6 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-slate-200">Official Packs</span>
-							<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-sky-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-sky-200">Custom Themes</span>
-							<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-teal-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-teal-200">Private Sharing</span>
-							<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-violet-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-violet-200">Community</span>
-						</div>
-						<div class="relative z-10 mt-8 grid grid-cols-2 gap-3">
-							<div class="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
-								<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Library</div>
-								<div class="mt-2 text-base font-black text-white font-['Outfit']">One place for every pack</div>
-							</div>
-							<div class="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
-								<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Builder</div>
-								<div class="mt-2 text-base font-black text-white font-['Outfit']">Custom assets</div>
-							</div>
-							<div class="col-span-2 rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
-								<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Sharing</div>
-								<div class="mt-2 text-base font-black text-white font-['Outfit']">Pass packs around as files</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="group relative flex flex-col justify-between overflow-hidden rounded-[3rem] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-left text-white">
-						<div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.18),_transparent_34%),linear-gradient(180deg,_rgba(15,23,42,0),_rgba(15,23,42,0.2))]"></div>
-						<div class="relative z-10">
-							<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">At Launch</div>
-							<h3 class="mt-3 font-['Outfit'] text-3xl font-black">Home Screen Widgets</h3>
-							<p class="mt-3 text-slate-300 font-medium leading-relaxed">
-								Robust widgets can keep your forecast and your chosen theme visible without opening the app.
-							</p>
-						</div>
-						<div class="relative z-10 mt-8 grid grid-cols-[1fr_1.35fr] gap-3">
-							<div class="rounded-[1.5rem] border border-white/10 bg-white/6 p-4">
-								<div class="h-14 rounded-xl bg-white/10"></div>
-								<div class="mt-3 h-2 rounded-full bg-white/20"></div>
-								<div class="mt-2 h-2 w-2/3 rounded-full bg-white/10"></div>
-							</div>
-							<div class="rounded-[1.5rem] border border-white/10 bg-white/6 p-4">
-								<div class="grid grid-cols-2 gap-2">
-									<div class="h-10 rounded-xl bg-white/10"></div>
-									<div class="h-10 rounded-xl bg-white/10"></div>
-									<div class="col-span-2 h-12 rounded-xl bg-white/14"></div>
-								</div>
-							</div>
-						</div>
-						<div class="relative z-10 mt-6 inline-flex self-end rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-white/75 sm:self-start">
-							Flexible widget layouts
-						</div>
-					</div>
-
-					<div class="relative flex flex-col justify-between space-y-6 overflow-hidden rounded-[3rem] border border-amber-300/12 bg-gradient-to-br from-[#39231a] via-[#6a3d2a] to-slate-950 p-8 text-left text-white">
-						<div>
-							<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/70">Original Extra</div>
-							<div class="mt-3 font-['Outfit'] text-4xl font-black">Weather Sudoku</div>
-							<p class="mt-4 text-sm font-medium leading-relaxed text-orange-50/80">
-								A side game gives the app some personality instead of stopping at a standard utility feature list.
-							</p>
-						</div>
-						<div class="relative z-10 flex justify-center sm:justify-start">
-							<div class="grid w-[11rem] grid-cols-3 gap-2">
-								<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
-								<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
-								<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
-								<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
-								<div class="aspect-square rounded-xl border border-amber-200/30 bg-amber-100/18 shadow-[0_0_0_1px_rgba(255,237,213,0.08)_inset]"></div>
-								<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
-								<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
-								<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
-								<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
-							</div>
-						</div>
-						<div class="inline-flex self-start rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-white/80">
-							Playful by design
-						</div>
+					<div class="hidden h-[400px] w-48 translate-y-12 rotate-12 overflow-hidden rounded-[2.5rem] border border-white/6 bg-slate-950 shadow-2xl opacity-40 md:block">
+						<img src="/press/media/themes/stainedglass2.jpg" alt="" aria-hidden="true" loading="lazy" class="h-full w-full object-cover" />
 					</div>
 				</div>
-			</section>
+				<p class="relative z-20 mt-8 text-sm font-medium text-slate-400">
+					That's the real app, running here in your browser. Scroll it, tap it — no install, no sign-up.
+				</p>
+			</div>
 		</header>
 
-		<!-- Themes Carousel Section -->
+		<!-- Promo video -->
+		<section id="video" class="py-12 scroll-mt-28">
+			<div class="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)]">
+				<div class="space-y-5 text-center lg:text-left">
+					<div class="text-[10px] font-black uppercase tracking-[0.24em] text-sky-300/70">Twenty-eight seconds</div>
+					<h2 class="font-['Outfit'] text-4xl font-black uppercase tracking-tight text-slate-50 md:text-5xl">
+						See it move
+					</h2>
+					<p class="mx-auto max-w-lg text-lg font-medium leading-relaxed text-slate-300 lg:mx-0">
+						A quick tour of the themes, the forecast and the widgets. The artwork does most of the talking.
+					</p>
+					<p class="text-sm font-medium text-slate-500">
+						Nothing loads from YouTube until you press play.
+					</p>
+				</div>
+				<div class="mx-auto w-full max-w-[320px]">
+					<div
+						class="relative aspect-[9/16] overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-950 shadow-[0_40px_120px_-40px_rgba(15,23,42,0.9)]"
+						data-video-facade
+						data-video-id={PROMO_VIDEO_ID}
+					>
+						<img
+							src="/media/promo-poster.jpg"
+							alt="Weatherie promo video"
+							loading="lazy"
+							class="absolute inset-0 h-full w-full object-cover"
+						/>
+						<button
+							type="button"
+							data-video-play
+							aria-label="Play the Weatherie promo video"
+							class="group absolute inset-0 flex items-center justify-center bg-gradient-to-t from-slate-950/55 via-transparent to-transparent transition-colors hover:bg-slate-950/25"
+						>
+							<span class="flex h-20 w-20 items-center justify-center rounded-full border border-white/25 bg-slate-950/55 backdrop-blur transition-transform duration-300 group-hover:scale-110">
+								<svg class="ml-1 h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+							</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Theme catalogue -->
 		<section class="py-12 overflow-hidden">
-			<div id="themes" class="text-center max-w-3xl mx-auto mb-16 px-4 scroll-mt-28">
+			<div id="themes" class="text-center max-w-3xl mx-auto mb-12 px-4 scroll-mt-28">
 				<h2 class="mb-4 font-['Outfit'] text-4xl font-black uppercase tracking-tight text-slate-50">Theme Packs</h2>
-				<p class="text-lg font-medium text-slate-300">From classic masterpieces to digital abstractions.</p>
+				<p class="text-lg font-medium text-slate-300">
+					One is built in and free. Eleven more are in the store — {freeThemeCount} of those are free too. New themes keep arriving.
+				</p>
+			</div>
+
+			<!-- Bundled default -->
+			<div class="mb-10 overflow-hidden rounded-[3rem] border border-amber-200/12 bg-gradient-to-br from-[#2a1b12] via-[#43291c] to-slate-950">
+				<div class="grid items-center gap-8 p-8 md:grid-cols-[minmax(0,0.42fr)_minmax(0,1fr)] md:p-10">
+					<img
+						src={bundledTheme.img}
+						alt="Open Road, the theme built into Weatherie"
+						loading="lazy"
+						class="mx-auto w-full max-w-[220px] rounded-[2rem] border border-white/10 object-cover shadow-2xl"
+					/>
+					<div class="space-y-4 text-center md:text-left">
+						<div class="inline-flex items-center gap-2 rounded-full border border-amber-200/20 bg-amber-100/10 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.24em] text-amber-100">
+							Built in · Free with the app
+						</div>
+						<h3 class="font-['Outfit'] text-3xl font-black text-white md:text-4xl">{bundledTheme.name}</h3>
+						<p class="mx-auto max-w-xl font-medium leading-relaxed text-orange-50/80 md:mx-0">{bundledTheme.desc}</p>
+						<p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-100/50">No account, no purchase, nothing to unlock.</p>
+					</div>
+				</div>
 			</div>
 
 			<div class="relative">
-				<div id="carousel" class="flex overflow-x-auto pb-12 hide-scrollbar snap-x snap-mandatory gap-6 px-4 md:px-[calc(50%-175px)]">
+				<div id="carousel" class="flex overflow-x-auto pb-12 hide-scrollbar snap-x snap-mandatory gap-6 px-4 md:px-[calc(50%-150px)]">
 					{
-						[
-							{ title: "Oil Paintings", desc: "Brush strokes and vibrant pigments for an analog feel.", color: "bg-[#1b120d]", text: "text-orange-100", copy: "text-orange-100/70", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&q=80&w=400" },
-							{ title: "Abstract Flow", desc: "Fluid gradients that react to wind and humidity levels.", color: "bg-[#0e1722]", text: "text-sky-100", copy: "text-sky-100/70", img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400" },
-							{ title: "Midnight Ink", desc: "Deep monochrome textures for night-time serenity.", color: "bg-[#0b1020]", text: "text-white", copy: "text-slate-400", dark: true, img: "https://images.unsplash.com/photo-1515462277126-2dd0c162007a?auto=format&fit=crop&q=80&w=400" },
-							{ title: "Naturalist", desc: "High-contrast nature photography from the wild.", color: "bg-[#0e1b17]", text: "text-emerald-100", copy: "text-emerald-100/70", img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&q=80&w=400" },
-							{ title: "Neo-Impression", desc: "Pointillist weather effects for the modern art lover.", color: "bg-[#181126]", text: "text-violet-100", copy: "text-violet-100/70", img: "https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&q=80&w=400" }
-						].map((item) => (
-							<div class="carousel-item min-w-[300px] md:min-w-[400px] snap-center transition-all duration-500 will-change-transform">
-								<div class={`${item.color} h-full flex flex-col overflow-hidden rounded-[3rem] border ${item.dark ? 'border-slate-800' : 'border-white/10'} shadow-xl`}>
-									<div class="h-64 overflow-hidden">
-										<img src={item.img} alt={item.title} class="w-full h-full object-cover" />
+						themes.map((item) => (
+							<div class="carousel-item min-w-[260px] md:min-w-[300px] snap-center transition-all duration-500 will-change-transform">
+								<div class="flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-900/80 shadow-xl">
+									<div class="relative aspect-[416/746] overflow-hidden">
+										<img src={item.img} alt={`${item.name} theme`} loading="lazy" class="h-full w-full object-cover" />
+										<span
+											class={`absolute right-4 top-4 rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] backdrop-blur ${
+												item.tier === 'free'
+													? 'bg-teal-400/90 text-slate-950'
+													: 'bg-slate-950/75 text-amber-200 ring-1 ring-amber-200/30'
+											}`}
+										>
+											{item.tier === 'free' ? 'Free' : '2 Credits'}
+										</span>
 									</div>
-									<div class="p-8">
-										<h3 class={`text-2xl font-black mb-2 font-['Outfit'] ${item.text}`}>{item.title}</h3>
-										<p class={`${item.copy} text-sm font-medium`}>{item.desc}</p>
+									<div class="flex flex-1 flex-col p-6">
+										<h3 class="mb-2 font-['Outfit'] text-xl font-black text-slate-50">{item.name}</h3>
+										<p class="text-sm font-medium leading-relaxed text-slate-400">{item.desc}</p>
 									</div>
 								</div>
 							</div>
@@ -352,7 +279,7 @@ const hourlyDemoSrc = buildDemoSrc({
 					}
 				</div>
 
-				<div class="pointer-events-none mt-4 flex justify-center gap-4 text-slate-500">
+				<div class="pointer-events-none mt-2 flex justify-center gap-4 text-slate-500">
 					<svg class="w-6 h-6 animate-bounce-x-left" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
 					<span class="text-xs font-black uppercase tracking-[0.3em]">Swipe Themes</span>
 					<svg class="w-6 h-6 animate-bounce-x-right" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -360,35 +287,290 @@ const hourlyDemoSrc = buildDemoSrc({
 			</div>
 		</section>
 
-		<!-- CTA -->
-		<section id="download" class="py-12">
-			<div class="relative overflow-hidden rounded-[4rem] border border-white/10 bg-gradient-to-tr from-[#10243a] via-[#0b4f6b] to-[#0d7e78] p-12 text-center text-white shadow-2xl shadow-sky-950/50 md:p-20">
-				<div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+		<!-- Screenshots -->
+		<section class="py-12">
+			<div class="mx-auto mb-12 max-w-3xl px-4 text-center">
+				<h2 class="mb-4 font-['Outfit'] text-4xl font-black uppercase tracking-tight text-slate-50">In the app</h2>
+				<p class="text-lg font-medium text-slate-300">Everything you came for, under the artwork.</p>
+			</div>
+			<div class="grid grid-cols-2 gap-5 lg:grid-cols-4">
+				{
+					shots.map((shot) => (
+						<img
+							src={shot.src}
+							alt={shot.alt}
+							loading="lazy"
+							class="w-full rounded-[1.75rem] border border-white/10 shadow-[0_30px_80px_-40px_rgba(8,15,29,1)]"
+						/>
+					))
+				}
+			</div>
+		</section>
 
+		<!-- Features -->
+		<section id="features" class="py-12 scroll-mt-28">
+			<div class="mx-auto mb-12 max-w-3xl space-y-4 px-4 text-center">
+				<h2 class="font-['Outfit'] text-4xl font-black uppercase tracking-tight text-slate-50 md:text-6xl">
+					Features
+				</h2>
+				<p class="text-lg font-medium leading-relaxed text-slate-300">
+					A closer look at the forecast, the widgets and the theme system.
+				</p>
+			</div>
+
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-4 md:auto-rows-[minmax(14rem,auto)]">
+				<div class="relative overflow-hidden rounded-[3rem] border border-white/10 bg-slate-950 p-6 text-white shadow-[0_40px_120px_-40px_rgba(15,23,42,0.55)] md:col-span-4 md:p-8">
+					<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.26),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(20,184,166,0.2),_transparent_36%),linear-gradient(135deg,_rgba(15,23,42,0.98),_rgba(2,6,23,0.92))]"></div>
+					<div class="relative z-10 grid gap-6 lg:grid-cols-[minmax(18rem,0.78fr)_minmax(0,1fr)] lg:items-start">
+						<div class="space-y-5 text-left lg:py-4">
+							<div class="space-y-4">
+								<div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.24em] text-white/60">
+									<span class="block h-2 w-2 rounded-full bg-sky-400"></span>
+									Live Widget
+								</div>
+								<h3 class="text-3xl font-black leading-[0.95] text-white md:text-5xl font-['Outfit'] uppercase tracking-tight">
+									Hourly Forecast
+								</h3>
+								<p class="max-w-lg text-base leading-relaxed text-slate-300 md:text-lg">
+									Turn rows on or off, scroll through the next hours, and keep the layout you actually use. This one is live — try it.
+								</p>
+							</div>
+							<div class="grid gap-3 sm:grid-cols-2">
+								<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4">
+									<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Toggles</div>
+									<div class="mt-2 text-lg font-black text-white font-['Outfit']">Show what matters</div>
+									<p class="mt-2 text-sm leading-relaxed text-slate-300">Pick the rows you want to keep in view.</p>
+								</div>
+								<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4">
+									<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Memory</div>
+									<div class="mt-2 text-lg font-black text-white font-['Outfit']">Keeps your picks</div>
+									<p class="mt-2 text-sm leading-relaxed text-slate-300">Your row choices stay in place for the next visit.</p>
+								</div>
+								<div class="rounded-[1.6rem] border border-white/10 bg-white/5 p-4 sm:col-span-2">
+									<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Icon Guide</div>
+									<div class="mt-3 grid grid-cols-2 gap-2">
+										<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
+											<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M16 3h5v5M8 21H3v-5M21 16v5h-5" />
+												<path stroke-linecap="round" stroke-linejoin="round" d="M3 8l5-5M16 3l5 5M3 16l5 5M21 16l-5 5" />
+											</svg>
+											<span>Expand all</span>
+										</div>
+										<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
+											<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M8 12h8M10 17h4" />
+											</svg>
+											<span>Collapse all</span>
+										</div>
+										<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
+											<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path stroke-linecap="round" stroke-linejoin="round" d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0Z" />
+											</svg>
+											<span>Temperature</span>
+										</div>
+										<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
+											<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="currentColor">
+												<path d="M12 2.5C9.6 6 6 9.6 6 13.5a6 6 0 1 0 12 0c0-3.9-3.6-7.5-6-11Z" />
+											</svg>
+											<span>Precipitation</span>
+										</div>
+										<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
+											<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path stroke-linecap="round" stroke-linejoin="round" d="M12 3.5C9.6 7 7 9.8 7 13a5 5 0 0 0 10 0c0-3.2-2.6-6-5-9.5Z" />
+												<path stroke-linecap="round" stroke-linejoin="round" d="M9.5 16.5c.8.7 1.7 1 2.5 1" />
+											</svg>
+											<span>Humidity</span>
+										</div>
+										<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white">
+											<svg class="h-4 w-4 text-sky-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path stroke-linecap="round" stroke-linejoin="round" d="M4 9c1.5-2 3.5-3 6-3 3.5 0 4.5 2 8 2 1 0 1.9-.2 2.7-.6" />
+												<path stroke-linecap="round" stroke-linejoin="round" d="M2 13c1.8-2 4-3 6.5-3 3.5 0 4.5 2 8 2 1.9 0 3.5-.5 5.5-1.7" />
+												<path stroke-linecap="round" stroke-linejoin="round" d="M6 17c1.2-1 2.6-1.5 4-1.5 2.4 0 3.3 1.3 5.5 1.3 1.2 0 2.4-.3 3.5-.8" />
+											</svg>
+											<span>Wind</span>
+										</div>
+										<div class="flex items-center gap-3 rounded-xl bg-black/15 px-3 py-2 text-sm font-black text-white col-span-2">
+											<svg class="h-4 w-4 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<circle cx="12" cy="12" r="4" />
+												<path stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+											</svg>
+											<span>Sun + UV</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="relative flex items-start justify-center lg:justify-end">
+							<div class="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-sky-500/20 via-teal-400/15 to-transparent blur-3xl"></div>
+							<iframe
+								src={hourlyDemoSrc}
+								data-demo-frame
+								data-demo-hourly-frame
+								data-base-src={hourlyDemoSrc}
+								class="relative block h-[25rem] w-full max-w-[23rem] rounded-[2.2rem] border-none shadow-2xl transition-[height] duration-300 ease-out sm:max-w-[28rem] sm:h-[31rem] lg:max-w-[32rem] lg:h-[38rem]"
+								scrolling="no"
+								title="Hourly forecast interactive preview"
+							></iframe>
+						</div>
+					</div>
+				</div>
+
+				<div class="group relative flex flex-col justify-between overflow-hidden rounded-[3rem] border border-white/10 bg-slate-900/80 p-8 text-left shadow-[0_30px_90px_-40px_rgba(8,15,29,1)] backdrop-blur md:col-span-2">
+					<div class="absolute right-0 top-0 h-56 w-56 rounded-full bg-sky-500/18 blur-[110px] transition-transform group-hover:scale-125"></div>
+					<div class="absolute bottom-0 left-10 h-40 w-40 rounded-full bg-violet-500/12 blur-[90px]"></div>
+					<div class="relative z-10">
+						<div class="text-[10px] font-black uppercase tracking-[0.24em] text-slate-400">Theme Ecosystem</div>
+						<h3 class="mt-3 font-['Outfit'] text-2xl font-black text-slate-50 sm:text-3xl">Wear a pack, or build your own</h3>
+						<p class="mt-3 max-w-xl font-medium leading-relaxed text-slate-300">
+							Start with the themes in the store, then make your own from your own pictures — and pass packs around as files. It all lives in the same library.
+						</p>
+					</div>
+					<div class="relative z-10 mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
+						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-white/6 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-slate-200">Store Packs</span>
+						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-sky-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-sky-200">Custom Themes</span>
+						<span class="inline-flex min-h-10 items-center justify-center rounded-full bg-teal-400/12 px-4 py-2 text-center text-xs font-black uppercase tracking-[0.18em] text-teal-200">Import / Export</span>
+					</div>
+					<div class="relative z-10 mt-8 grid grid-cols-2 gap-3">
+						<div class="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
+							<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Library</div>
+							<div class="mt-2 text-base font-black text-white font-['Outfit']">One place for every pack</div>
+						</div>
+						<div class="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
+							<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Builder</div>
+							<div class="mt-2 text-base font-black text-white font-['Outfit']">Your own pictures</div>
+						</div>
+						<div class="col-span-2 rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
+							<div class="text-[10px] font-black uppercase tracking-[0.22em] text-white/45">Sharing</div>
+							<div class="mt-2 text-base font-black text-white font-['Outfit']">Pass packs around as files</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="group relative flex flex-col justify-between overflow-hidden rounded-[3rem] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-left text-white">
+					<div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.18),_transparent_34%),linear-gradient(180deg,_rgba(15,23,42,0),_rgba(15,23,42,0.2))]"></div>
+					<div class="relative z-10">
+						<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/45">Home Screen</div>
+						<h3 class="mt-3 font-['Outfit'] text-3xl font-black">Widgets wear your theme</h3>
+						<p class="mt-3 text-slate-300 font-medium leading-relaxed">
+							Keep the forecast and the artwork you picked on your home screen, without opening the app.
+						</p>
+					</div>
+					<div class="relative z-10 mt-8 grid grid-cols-[1fr_1.35fr] gap-3">
+						<div class="rounded-[1.5rem] border border-white/10 bg-white/6 p-4">
+							<div class="h-14 rounded-xl bg-white/10"></div>
+							<div class="mt-3 h-2 rounded-full bg-white/20"></div>
+							<div class="mt-2 h-2 w-2/3 rounded-full bg-white/10"></div>
+						</div>
+						<div class="rounded-[1.5rem] border border-white/10 bg-white/6 p-4">
+							<div class="grid grid-cols-2 gap-2">
+								<div class="h-10 rounded-xl bg-white/10"></div>
+								<div class="h-10 rounded-xl bg-white/10"></div>
+								<div class="col-span-2 h-12 rounded-xl bg-white/14"></div>
+							</div>
+						</div>
+					</div>
+					<div class="relative z-10 mt-6 inline-flex self-end rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-white/75 sm:self-start">
+						Two sizes · iOS and Android
+					</div>
+				</div>
+
+				<div class="relative flex flex-col justify-between space-y-6 overflow-hidden rounded-[3rem] border border-amber-300/12 bg-gradient-to-br from-[#39231a] via-[#6a3d2a] to-slate-950 p-8 text-left text-white">
+					<div>
+						<div class="text-[10px] font-black uppercase tracking-[0.24em] text-white/70">Original Extra</div>
+						<div class="mt-3 font-['Outfit'] text-4xl font-black">Weather Sudoku</div>
+						<p class="mt-4 text-sm font-medium leading-relaxed text-orange-50/80">
+							A side game, tucked into a tile, for when the forecast is boring but the sky isn't.
+						</p>
+					</div>
+					<div class="relative z-10 flex justify-center sm:justify-start">
+						<div class="grid w-[11rem] grid-cols-3 gap-2">
+							<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
+							<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
+							<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
+							<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
+							<div class="aspect-square rounded-xl border border-amber-200/30 bg-amber-100/18 shadow-[0_0_0_1px_rgba(255,237,213,0.08)_inset]"></div>
+							<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
+							<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
+							<div class="aspect-square rounded-xl border border-white/10 bg-white/12"></div>
+							<div class="aspect-square rounded-xl border border-white/10 bg-black/20"></div>
+						</div>
+					</div>
+					<div class="inline-flex self-start rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-white/80">
+						Playful by design
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Pricing / credits -->
+		<section id="pricing" class="py-12 scroll-mt-28">
+			<div class="mx-auto mb-12 max-w-3xl px-4 text-center">
+				<h2 class="mb-4 font-['Outfit'] text-4xl font-black uppercase tracking-tight text-slate-50">Credits, not subscriptions</h2>
+				<p class="text-lg font-medium text-slate-300">
+					Buy a handful of credits once and spend them on the themes you want. Nothing renews.
+				</p>
+			</div>
+			<div class="grid gap-5 md:grid-cols-3">
+				<div class="rounded-[2.5rem] border border-white/10 bg-slate-900/70 p-8 backdrop-blur">
+					<div class="text-[10px] font-black uppercase tracking-[0.24em] text-teal-300/70">The price</div>
+					<div class="mt-3 font-['Outfit'] text-3xl font-black text-slate-50">2 credits a theme</div>
+					<p class="mt-3 font-medium leading-relaxed text-slate-400">
+						Once a theme is yours, it stays yours — and it keeps growing as new scenes are added to it.
+					</p>
+				</div>
+				<div class="rounded-[2.5rem] border border-white/10 bg-slate-900/70 p-8 backdrop-blur">
+					<div class="text-[10px] font-black uppercase tracking-[0.24em] text-sky-300/70">Ads</div>
+					<div class="mt-3 font-['Outfit'] text-3xl font-black text-slate-50">Any purchase turns them off</div>
+					<p class="mt-3 font-medium leading-relaxed text-slate-400">
+						For good. And until then they are only our own — no advertising identifier, and no tracking you across other apps.
+					</p>
+				</div>
+				<div class="rounded-[2.5rem] border border-white/10 bg-slate-900/70 p-8 backdrop-blur">
+					<div class="text-[10px] font-black uppercase tracking-[0.24em] text-violet-300/70">Free either way</div>
+					<div class="mt-3 font-['Outfit'] text-3xl font-black text-slate-50">Open Road, plus {freeThemeCount} more</div>
+					<p class="mt-3 font-medium leading-relaxed text-slate-400">
+						The built-in theme ships with the app, and {freeThemeCount} themes in the store cost no credits at all.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA -->
+		<section id="download" class="py-12 scroll-mt-28">
+			<div class="relative overflow-hidden rounded-[4rem] border border-white/10 bg-gradient-to-tr from-[#10243a] via-[#0b4f6b] to-[#0d7e78] p-12 text-center text-white shadow-2xl shadow-sky-950/50 md:p-20">
 				<div class="relative z-10 max-w-2xl mx-auto space-y-10">
-					<h2 class="font-['Outfit'] text-4xl font-black italic leading-tight md:text-6xl">Ready to see the weather differently?</h2>
+					<h2 class="font-['Outfit'] text-4xl font-black italic leading-tight md:text-6xl">Enjoy the weather you choose.</h2>
 
 					<div class="flex flex-col gap-8 items-center">
-						<div class="flex flex-wrap gap-4 justify-center">
-							<a href="#" class="flex w-56 items-center justify-center gap-4 rounded-2xl border border-white/10 bg-black py-4 text-white transition-all hover:scale-105 hover:shadow-xl active:scale-95">
-								<svg class="w-8 h-8" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-48.7-19.1-77.5-19.1-36.9 0-76.3 24.6-94.6 61.4-41 82.3-18.8 182.7 21.2 244.3 23.3 33.9 55 67.4 96.6 67.4 34.1 0 44-19.1 85.6-19.1 41.7 0 52.2 19.1 85.7 19.1 43.1 0 73.3-33.8 96-67.4 15.8-23.9 20.6-34.4 30.8-53-73.1-28.6-81.8-119.2-80.6-129.7zm-60.9-174.5c20-24.2 33.4-57.8 29.7-91.2-28.1 1.1-62.2 18.8-82.3 42.4-18 20.8-33.7 54.8-29.6 87.3 31.1 2.4 62.2-14.3 82.2-38.5z"/></svg>
-								<div class="text-left">
-									<div class="text-[10px] uppercase font-bold opacity-70 leading-none">Download on the</div>
-									<div class="text-xl font-bold leading-none mt-1">App Store</div>
+						{
+							hasAnyStoreLink ? (
+								<div class="flex flex-wrap gap-4 justify-center">
+									{hasAppStore && (
+										<a
+											href={STORE_LINKS.appStore}
+											class="flex w-56 items-center justify-center rounded-2xl border border-white/15 bg-slate-950/80 px-6 py-4 text-base font-black tracking-wide text-white transition-all hover:scale-105 hover:bg-slate-950 active:scale-95"
+										>
+											App Store
+										</a>
+									)}
+									{hasGooglePlay && (
+										<a
+											href={STORE_LINKS.googlePlay}
+											class="flex w-56 items-center justify-center rounded-2xl border border-white/15 bg-slate-950/80 px-6 py-4 text-base font-black tracking-wide text-white transition-all hover:scale-105 hover:bg-slate-950 active:scale-95"
+										>
+											Google Play
+										</a>
+									)}
 								</div>
-							</a>
-
-							<a href="#" class="flex w-56 items-center justify-center gap-4 rounded-2xl border border-white/10 bg-black py-4 text-white transition-all hover:scale-105 hover:shadow-xl active:scale-95">
-								<svg class="w-8 h-8" viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-10.3 18-28.5-1.2-40.8zM325.3 277.7l60.1 60.1L104.6 499l220.7-221.3z"/></svg>
-								<div class="text-left">
-									<div class="text-[10px] uppercase font-bold opacity-70 leading-none">Get it on</div>
-									<div class="text-xl font-bold leading-none mt-1">Google Play</div>
+							) : (
+								<div class="rounded-2xl border border-white/15 bg-slate-950/40 px-8 py-5 text-sm font-bold uppercase tracking-[0.18em] text-white/85">
+									Coming soon to the App Store and Google Play
 								</div>
-							</a>
-						</div>
+							)
+						}
 
-						<a href="#themes" class="text-white/80 hover:text-white font-black text-lg underline underline-offset-8 transition-all">
-							Explore Themes
+						<a href="#preview" class="text-white/80 hover:text-white font-black text-lg underline underline-offset-8 transition-all">
+							Try it in your browser
 						</a>
 					</div>
 				</div>
@@ -407,7 +589,7 @@ const hourlyDemoSrc = buildDemoSrc({
 				<a href="mailto:support@weatherie.com" class="transition-colors hover:text-sky-300">Support</a>
 			</div>
 			<div class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
-				© {new Date().getFullYear()} Weatherie.
+				© {new Date().getFullYear()} Advection Software LLC.
 			</div>
 		</footer>
 	</main>
@@ -431,6 +613,25 @@ const hourlyDemoSrc = buildDemoSrc({
 			});
 		});
 		carousel.dispatchEvent(new Event('scroll'));
+	}
+
+	// Click-to-load YouTube facade: no third-party request until the user asks.
+	const videoFacade = document.querySelector('[data-video-facade]');
+	const videoPlayButton = document.querySelector('[data-video-play]');
+	if (videoFacade instanceof HTMLElement && videoPlayButton) {
+		videoPlayButton.addEventListener('click', () => {
+			const videoId = videoFacade.dataset.videoId;
+			if (!videoId) return;
+			const iframe = document.createElement('iframe');
+			iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1`;
+			iframe.title = 'Weatherie promo video';
+			iframe.allow =
+				'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+			iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+			iframe.allowFullscreen = true;
+			iframe.className = 'absolute inset-0 h-full w-full border-none';
+			videoFacade.replaceChildren(iframe);
+		});
 	}
 
 	const demoPhoneShell = document.querySelector('[data-demo-phone-shell]');
