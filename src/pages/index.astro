@@ -48,6 +48,11 @@ const hourlyDemoSrc = buildDemoSrc({
 // Theme catalogue — the 11 themes live in /v1/catalog on 2026-10-14, with the
 // display names and descriptions the app itself shows. Drafts are excluded.
 // Stills are the press kit's, reused in place so the page adds no new bytes.
+//
+// Deliberately no price, tier or credit information here or anywhere else on
+// the page: the store listings carry the real pricing, the landing page does
+// not discuss it. Presented as a sample rather than a complete list, because
+// more are on the way.
 // ---------------------------------------------------------------------------
 const bundledTheme = {
 	name: 'Open Road',
@@ -56,20 +61,18 @@ const bundledTheme = {
 };
 
 const themes = [
-	{ id: 'artdeco', name: 'Streamline', tier: 'free', desc: 'Travel-poster glamour from the thirties: bold geometry, chrome curves and flat saturated colour.' },
-	{ id: 'lowpoly', name: 'Facets', tier: 'free', desc: 'Wild country rebuilt from flat triangles: glaciers, canyons, fjords and dune seas.' },
-	{ id: 'papercraft', name: 'Papercraft', tier: 'free', desc: 'Landscapes cut and layered from coloured paper — bevelled edges, folded hills, soft shadows between every plane.' },
-	{ id: 'van-gogh', name: 'Impasto Fields', tier: 'paid', desc: 'Thick oil paint and swirling skies over low, quiet horizons.' },
-	{ id: 'stainedglass2', name: 'Leaded Light', tier: 'paid', desc: 'Stained glass lit from behind: pastoral days, lantern-lit nights, every pane hand-leaded.' },
-	{ id: 'artnouveau', name: 'Belle Époque', tier: 'paid', desc: 'Art nouveau panels — one figure, one craft, and flowering ornament running through every frame.' },
-	{ id: 'tinbot', name: 'Tin Traveller', tier: 'paid', desc: 'A small brass automaton alone in vast weather, with one amber lamp for company.' },
-	{ id: 'fox', name: 'Little Fox', tier: 'paid', desc: 'A small fox in a blue scarf, out in every weather there is.' },
-	{ id: 'creaturephoto', name: 'Eye Level', tier: 'paid', desc: 'Photographed lying in the grass — a wren, a stag beetle, a sand cat — with the weather at their scale.' },
-	{ id: 'paperminimal', name: 'Folded', tier: 'paid', desc: 'A different origami creature every time, folded from coloured paper under soft studio light.' },
-	{ id: 'balloonfolk', name: 'Balloon Animals', tier: 'paid', desc: 'Everything twisted from modelling balloons — the animals, the clouds, even the rain.' },
+	{ id: 'artdeco', name: 'Streamline', desc: 'Travel-poster glamour from the thirties: bold geometry, chrome curves and flat saturated colour.' },
+	{ id: 'lowpoly', name: 'Facets', desc: 'Wild country rebuilt from flat triangles: glaciers, canyons, fjords and dune seas.' },
+	{ id: 'papercraft', name: 'Papercraft', desc: 'Landscapes cut and layered from coloured paper — bevelled edges, folded hills, soft shadows between every plane.' },
+	{ id: 'van-gogh', name: 'Impasto Fields', desc: 'Thick oil paint and swirling skies over low, quiet horizons.' },
+	{ id: 'stainedglass2', name: 'Leaded Light', desc: 'Stained glass lit from behind: pastoral days, lantern-lit nights, every pane hand-leaded.' },
+	{ id: 'artnouveau', name: 'Belle Époque', desc: 'Art nouveau panels — one figure, one craft, and flowering ornament running through every frame.' },
+	{ id: 'tinbot', name: 'Tin Traveller', desc: 'A small brass automaton alone in vast weather, with one amber lamp for company.' },
+	{ id: 'fox', name: 'Little Fox', desc: 'A small fox in a blue scarf, out in every weather there is.' },
+	{ id: 'creaturephoto', name: 'Eye Level', desc: 'Photographed lying in the grass — a wren, a stag beetle, a sand cat — with the weather at their scale.' },
+	{ id: 'paperminimal', name: 'Folded', desc: 'A different origami creature every time, folded from coloured paper under soft studio light.' },
+	{ id: 'balloonfolk', name: 'Balloon Animals', desc: 'Everything twisted from modelling balloons — the animals, the clouds, even the rain.' },
 ].map((t) => ({ ...t, img: `/press/media/themes/${t.id}.jpg` }));
-
-const freeThemeCount = themes.filter((t) => t.tier === 'free').length;
 
 const shots = [
 	{ src: '/media/shot-01_today_sunny.jpg', alt: 'Weatherie today screen with the built-in Open Road theme' },
@@ -81,7 +84,7 @@ const shots = [
 
 <Layout
 	title="Weatherie — Thousands of ways to see the weather"
-	description="A weather app you'll want to look at. Every theme is a complete set of artwork — a scene for each kind of weather, day and night. Credits, not subscriptions."
+	description="A weather app you'll want to look at. Every theme is a complete set of artwork — a scene for each kind of weather, day and night — and new themes keep arriving."
 >
 	<!-- Decorative Background Elements -->
 	<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -101,9 +104,9 @@ const shots = [
 			</div>
 			<div class="hidden gap-10 text-sm font-bold uppercase tracking-widest text-slate-400 md:flex">
 				<a href="#preview" class="transition-colors hover:text-sky-300">Preview</a>
+				<a href="#video" class="transition-colors hover:text-sky-300">Video</a>
 				<a href="#themes" class="transition-colors hover:text-sky-300">Themes</a>
 				<a href="#features" class="transition-colors hover:text-sky-300">Features</a>
-				<a href="#pricing" class="transition-colors hover:text-sky-300">Pricing</a>
 			</div>
 			<a href="#download" class="rounded-xl border border-sky-300/10 bg-sky-400 px-5 py-2 text-sm font-bold text-slate-950 shadow-lg shadow-sky-950/40 transition-all hover:bg-sky-300 active:scale-95">
 				Get App
@@ -196,8 +199,10 @@ const shots = [
 					</p>
 				</div>
 				<div class="mx-auto w-full max-w-[320px]">
+					<!-- The source video is 1080x2160, so the frame is 1:2. Matching it
+					     exactly means the poster is shown whole rather than cropped. -->
 					<div
-						class="relative aspect-[9/16] overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-950 shadow-[0_40px_120px_-40px_rgba(15,23,42,0.9)]"
+						class="relative aspect-[1/2] overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-950 shadow-[0_40px_120px_-40px_rgba(15,23,42,0.9)]"
 						data-video-facade
 						data-video-id={PROMO_VIDEO_ID}
 					>
@@ -205,7 +210,7 @@ const shots = [
 							src="/media/promo-poster.jpg"
 							alt="Weatherie promo video"
 							loading="lazy"
-							class="absolute inset-0 h-full w-full object-cover"
+							class="absolute inset-0 h-full w-full object-contain"
 						/>
 						<button
 							type="button"
@@ -227,7 +232,7 @@ const shots = [
 			<div id="themes" class="text-center max-w-3xl mx-auto mb-12 px-4 scroll-mt-28">
 				<h2 class="mb-4 font-['Outfit'] text-4xl font-black uppercase tracking-tight text-slate-50">Theme Packs</h2>
 				<p class="text-lg font-medium text-slate-300">
-					One is built in and free. Eleven more are in the store — {freeThemeCount} of those are free too. New themes keep arriving.
+					One comes built in. Here are some of the others — and the collection keeps growing, with new themes arriving all the time.
 				</p>
 			</div>
 
@@ -242,11 +247,11 @@ const shots = [
 					/>
 					<div class="space-y-4 text-center md:text-left">
 						<div class="inline-flex items-center gap-2 rounded-full border border-amber-200/20 bg-amber-100/10 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.24em] text-amber-100">
-							Built in · Free with the app
+							Built in
 						</div>
 						<h3 class="font-['Outfit'] text-3xl font-black text-white md:text-4xl">{bundledTheme.name}</h3>
 						<p class="mx-auto max-w-xl font-medium leading-relaxed text-orange-50/80 md:mx-0">{bundledTheme.desc}</p>
-						<p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-100/50">No account, no purchase, nothing to unlock.</p>
+						<p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-100/50">Ready the moment you open the app.</p>
 					</div>
 				</div>
 			</div>
@@ -259,15 +264,6 @@ const shots = [
 								<div class="flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-900/80 shadow-xl">
 									<div class="relative aspect-[416/746] overflow-hidden">
 										<img src={item.img} alt={`${item.name} theme`} loading="lazy" class="h-full w-full object-cover" />
-										<span
-											class={`absolute right-4 top-4 rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] backdrop-blur ${
-												item.tier === 'free'
-													? 'bg-teal-400/90 text-slate-950'
-													: 'bg-slate-950/75 text-amber-200 ring-1 ring-amber-200/30'
-											}`}
-										>
-											{item.tier === 'free' ? 'Free' : '2 Credits'}
-										</span>
 									</div>
 									<div class="flex flex-1 flex-col p-6">
 										<h3 class="mb-2 font-['Outfit'] text-xl font-black text-slate-50">{item.name}</h3>
@@ -277,6 +273,59 @@ const shots = [
 							</div>
 						))
 					}
+
+					<!-- "and more" — a real tile, closing the row on a promise -->
+					<div class="carousel-item min-w-[260px] md:min-w-[300px] snap-center transition-all duration-500 will-change-transform">
+						<div class="flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-sky-300/20 bg-slate-900/80 shadow-xl">
+							<div class="relative flex aspect-[416/746] items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_30%_20%,_rgba(56,189,248,0.3),_transparent_55%),radial-gradient(circle_at_70%_80%,_rgba(167,139,250,0.28),_transparent_55%),linear-gradient(160deg,_#0b2237,_#0a1526_60%,_#070d18)]">
+								<!-- Weather marks kept clear of the centre so the words stay legible:
+							     sun and cloud above, rain and stars below. -->
+								<svg class="absolute inset-0 h-full w-full" viewBox="0 0 416 746" fill="none" aria-hidden="true">
+									<defs>
+										<radialGradient id="moreSun" cx="50%" cy="50%" r="50%">
+											<stop offset="0%" stop-color="#ffe9ba"/>
+											<stop offset="55%" stop-color="#fcd34d"/>
+											<stop offset="100%" stop-color="#fcd34d" stop-opacity="0"/>
+										</radialGradient>
+										<radialGradient id="moreScrim" cx="50%" cy="50%" r="50%">
+											<stop offset="0%" stop-color="#050d18" stop-opacity="0.72"/>
+											<stop offset="100%" stop-color="#050d18" stop-opacity="0"/>
+										</radialGradient>
+									</defs>
+									<!-- sky, upper third -->
+									<circle cx="306" cy="128" r="78" fill="url(#moreSun)" opacity="0.9"/>
+									<g fill="#e2e8f0" opacity="0.16">
+										<ellipse cx="138" cy="214" rx="92" ry="34"/>
+										<ellipse cx="196" cy="196" rx="62" ry="27"/>
+									</g>
+									<!-- weather, lower third -->
+									<g stroke="#7dd3fc" stroke-width="6" stroke-linecap="round" opacity="0.4">
+										<line x1="132" y1="536" x2="116" y2="582"/>
+										<line x1="186" y1="552" x2="170" y2="598"/>
+										<line x1="240" y1="536" x2="224" y2="582"/>
+										<line x1="294" y1="552" x2="278" y2="598"/>
+									</g>
+									<g fill="#e2e8f0" opacity="0.45">
+										<circle cx="124" cy="664" r="4"/>
+										<circle cx="196" cy="690" r="3"/>
+										<circle cx="268" cy="660" r="4"/>
+										<circle cx="332" cy="686" r="3"/>
+									</g>
+									<!-- scrim directly behind the words -->
+									<ellipse cx="208" cy="376" rx="190" ry="128" fill="url(#moreScrim)"/>
+								</svg>
+								<div class="relative z-10 px-8 text-center">
+									<div class="font-['Outfit'] text-5xl font-black leading-none text-white">and<br/>more</div>
+									<div class="mx-auto mt-5 h-px w-14 bg-white/25"></div>
+									<div class="mt-5 text-[10px] font-black uppercase tracking-[0.24em] text-sky-200/80">Arriving all the time</div>
+								</div>
+							</div>
+							<div class="flex flex-1 flex-col p-6">
+								<h3 class="mb-2 font-['Outfit'] text-xl font-black text-slate-50">More on the way</h3>
+								<p class="text-sm font-medium leading-relaxed text-slate-400">New themes land regularly, and the ones you already have keep growing new scenes.</p>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<div class="pointer-events-none mt-2 flex justify-center gap-4 text-slate-500">
@@ -502,34 +551,19 @@ const shots = [
 			</div>
 		</section>
 
-		<!-- Pricing / credits -->
-		<section id="pricing" class="py-12 scroll-mt-28">
-			<div class="mx-auto mb-12 max-w-3xl px-4 text-center">
-				<h2 class="mb-4 font-['Outfit'] text-4xl font-black uppercase tracking-tight text-slate-50">Credits, not subscriptions</h2>
-				<p class="text-lg font-medium text-slate-300">
-					Buy a handful of credits once and spend them on the themes you want. Nothing renews.
-				</p>
-			</div>
-			<div class="grid gap-5 md:grid-cols-3">
-				<div class="rounded-[2.5rem] border border-white/10 bg-slate-900/70 p-8 backdrop-blur">
-					<div class="text-[10px] font-black uppercase tracking-[0.24em] text-teal-300/70">The price</div>
-					<div class="mt-3 font-['Outfit'] text-3xl font-black text-slate-50">2 credits a theme</div>
-					<p class="mt-3 font-medium leading-relaxed text-slate-400">
-						Once a theme is yours, it stays yours — and it keeps growing as new scenes are added to it.
-					</p>
-				</div>
-				<div class="rounded-[2.5rem] border border-white/10 bg-slate-900/70 p-8 backdrop-blur">
-					<div class="text-[10px] font-black uppercase tracking-[0.24em] text-sky-300/70">Ads</div>
-					<div class="mt-3 font-['Outfit'] text-3xl font-black text-slate-50">Any purchase turns them off</div>
-					<p class="mt-3 font-medium leading-relaxed text-slate-400">
-						For good. And until then they are only our own — no advertising identifier, and no tracking you across other apps.
-					</p>
-				</div>
-				<div class="rounded-[2.5rem] border border-white/10 bg-slate-900/70 p-8 backdrop-blur">
-					<div class="text-[10px] font-black uppercase tracking-[0.24em] text-violet-300/70">Free either way</div>
-					<div class="mt-3 font-['Outfit'] text-3xl font-black text-slate-50">Open Road, plus {freeThemeCount} more</div>
-					<p class="mt-3 font-medium leading-relaxed text-slate-400">
-						The built-in theme ships with the app, and {freeThemeCount} themes in the store cost no credits at all.
+		<!-- Privacy. Deliberately no pricing anywhere on this page. -->
+		<section class="py-12">
+			<div class="relative overflow-hidden rounded-[3rem] border border-white/10 bg-slate-900/70 p-8 backdrop-blur md:p-12">
+				<div class="absolute right-0 top-0 h-56 w-56 rounded-full bg-teal-400/12 blur-[110px]"></div>
+				<div class="relative z-10 grid gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] md:items-center">
+					<div>
+						<div class="text-[10px] font-black uppercase tracking-[0.24em] text-teal-300/70">Nobody is watching</div>
+						<h2 class="mt-3 font-['Outfit'] text-3xl font-black uppercase tracking-tight text-slate-50 md:text-4xl">
+							No tracking. No ad network.
+						</h2>
+					</div>
+					<p class="text-lg font-medium leading-relaxed text-slate-300">
+						The only promotions in Weatherie are our own, served by us. There is no third-party ad network, no advertising identifier, and nothing follows you across other apps or websites. There is no account to make, either.
 					</p>
 				</div>
 			</div>

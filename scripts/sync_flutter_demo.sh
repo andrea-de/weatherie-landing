@@ -14,5 +14,12 @@ if [[ -z "$FLUTTER_DIR" || ! -f "$FLUTTER_DIR/scripts/build_demo_web.sh" ]]; the
   exit 1
 fi
 
-bash "$FLUTTER_DIR/scripts/build_demo_web.sh" --base-href /demo/
+# REMOVE_LOCAL_ENGINE=1 drops build/web/canvaskit/ (~28 MB of renderer wasm).
+# It is dead weight here: the Flutter loader resolves its renderer from
+# https://www.gstatic.com/flutter-canvaskit/<engineRevision>/ unless the build
+# passes --local-web-sdk-canvaskit, which ours does not — so the bundled copy
+# is never requested. Verified by tracing the demo's network activity: the only
+# renderer fetches go to gstatic. Keeping it would commit 28 MB to a public
+# repo for nothing, and this repo's size is already a concern.
+REMOVE_LOCAL_ENGINE=1 bash "$FLUTTER_DIR/scripts/build_demo_web.sh" --base-href /demo/
 rsync -a --delete "$FLUTTER_DIR/build/web/" "$LANDING_DIR/public/demo/"

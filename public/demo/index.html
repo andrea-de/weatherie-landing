@@ -32,7 +32,7 @@
   <title>weather</title>
   <link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-  <style>html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; background: #000; } body { min-height: 100%; } iframe { border: 0; }</style>
+  <style>html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; background: #16325c; } body { min-height: 100%; } iframe { border: 0; }</style>
 </head>
 <body>
   <!--
@@ -45,6 +45,275 @@
   -->
   <script>(() => { let unlockTimer = 0; const postToParent = (type) => { try { if (window.parent && window.parent !== window) { window.parent.postMessage({ source: "weatherie-demo", type }, window.location.origin); } } catch (_) {} }; const startInteraction = () => { window.clearTimeout(unlockTimer); postToParent("interaction-start"); }; const endInteraction = (delay = 140) => { window.clearTimeout(unlockTimer); unlockTimer = window.setTimeout(() => postToParent("interaction-end"), delay); }; window.addEventListener("pointerdown", startInteraction, { passive: true }); window.addEventListener("pointerup", () => endInteraction(), { passive: true }); window.addEventListener("pointercancel", () => endInteraction(), { passive: true }); window.addEventListener("touchstart", startInteraction, { passive: true }); window.addEventListener("touchmove", startInteraction, { passive: true }); window.addEventListener("touchend", () => endInteraction(), { passive: true }); window.addEventListener("touchcancel", () => endInteraction(), { passive: true }); window.addEventListener("wheel", () => { startInteraction(); endInteraction(180); }, { passive: true }); window.addEventListener("blur", () => endInteraction(0), { passive: true }); if (window.visualViewport) { const syncViewport = () => window.dispatchEvent(new Event("resize")); window.visualViewport.addEventListener("resize", syncViewport, { passive: true }); window.visualViewport.addEventListener("scroll", syncViewport, { passive: true }); } })();</script>
   <script>if ("serviceWorker" in navigator) { const currentScope = new URL("./", window.location.href).pathname; navigator.serviceWorker.getRegistrations().then((registrations) => { for (const registration of registrations) { try { const scopePath = new URL(registration.scope).pathname; if (scopePath.startsWith(currentScope)) { registration.unregister(); } } catch (_) {} } }); }</script>
-  <script src="flutter_bootstrap.js" async></script>
+  <!--
+  Branded loading screen for the embedded web demo.
+
+  Spliced into build/web/index.html by scripts/build_demo_web.sh, in place of
+  the default `<script src="flutter_bootstrap.js" async>` tag. It must be
+  self-contained: it paints before any Flutter code runs, so it cannot use the
+  app's fonts, assets or colours at runtime — the palette below is copied from
+  the app's own branded launch (android/app/src/main/res/values/colors.xml,
+  #169BFE) and the bundled Open Road theme (assets/themes/poster/theme.json,
+  backgroundColor #2B4C7E).
+
+  The progress bar is driven by REAL bytes, never a simulated percentage.
+
+  It works by wrapping window.fetch while the Flutter loader runs: each .wasm
+  response body is passed through a counting stream on its way to the loader.
+  That means the payload is downloaded exactly ONCE — an earlier version
+  prefetched the files to measure them and relied on the HTTP cache to spare
+  the loader's own fetch, but a host that does not send cache headers then
+  downloads everything twice, which measurably doubled the wait.
+
+  Content-Length is a CORS-safelisted response header, so this measures both
+  the same-origin main.dart.wasm and the renderer wasm that the loader pulls
+  from Google's CDN. Totals are discovered as each fetch begins, so the
+  displayed value is clamped to be monotonic — it reports real bytes and never
+  jumps backwards when a new file joins the set. If no Content-Length is
+  readable, it falls back to an indeterminate shimmer rather than guessing.
+-->
+<style>
+  #demo-loading {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    padding: 24px;
+    background:
+      radial-gradient(ellipse 120% 80% at 50% 108%, rgba(255, 233, 186, 0.5), transparent 60%),
+      linear-gradient(180deg, #16325c 0%, #2b4c7e 38%, #169bfe 88%, #5fc0ff 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    opacity: 1;
+    transition: opacity 420ms ease;
+  }
+  #demo-loading.is-done {
+    opacity: 0;
+    pointer-events: none;
+  }
+  #demo-loading .sun {
+    position: absolute;
+    right: 16%;
+    top: 20%;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe9ba 0%, #ffd27a 55%, rgba(255, 210, 122, 0) 72%);
+    animation: demo-sun 5s ease-in-out infinite;
+  }
+  @keyframes demo-sun {
+    0%, 100% { transform: scale(1); opacity: 0.92; }
+    50% { transform: scale(1.07); opacity: 1; }
+  }
+  #demo-loading .wordmark {
+    position: relative;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(6, 22, 44, 0.45);
+  }
+  #demo-loading .track {
+    position: relative;
+    width: min(220px, 62vw);
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.24);
+    overflow: hidden;
+  }
+  #demo-loading .fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.65);
+    transition: width 200ms ease-out;
+  }
+  /* Indeterminate: used only when real byte progress is unavailable, and for
+     the engine-startup phase after the metered download has finished. */
+  #demo-loading .track.is-indeterminate .fill {
+    width: 40%;
+    transition: none;
+    animation: demo-slide 1.15s ease-in-out infinite;
+  }
+  @keyframes demo-slide {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(260%); }
+  }
+  #demo-loading .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #demo-loading .sun { animation: none; }
+    #demo-loading .track.is-indeterminate .fill { animation: none; width: 100%; }
+  }
+</style>
+
+<div id="demo-loading" role="status" aria-live="polite">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="wordmark">Weatherie</div>
+  <div class="track" id="demo-loading-track"><div class="fill" id="demo-loading-fill"></div></div>
+  <div class="label" id="demo-loading-label">Loading</div>
+</div>
+
+<script>
+(() => {
+  const overlay = document.getElementById('demo-loading');
+  const track = document.getElementById('demo-loading-track');
+  const fill = document.getElementById('demo-loading-fill');
+  const label = document.getElementById('demo-loading-label');
+
+  const setIndeterminate = (text) => {
+    track.classList.add('is-indeterminate');
+    if (text) label.textContent = text;
+  };
+
+  let hidden = false;
+  const hide = () => {
+    if (hidden) return;
+    hidden = true;
+    overlay.classList.add('is-done');
+    setTimeout(() => overlay.remove(), 500);
+  };
+
+  // Hide on the first painted Flutter frame. `runApp()` resolving is not
+  // enough — the renderer still has to attach and paint — so watch for the
+  // view host element instead, with a timeout so a rendering fault can never
+  // leave a visitor staring at the overlay forever.
+  const seen = () =>
+    document.querySelector('flt-glass-pane') || document.querySelector('flutter-view');
+  if (seen()) {
+    hide();
+  } else {
+    const observer = new MutationObserver(() => {
+      if (seen()) {
+        observer.disconnect();
+        // One frame's grace so we fade out over the app, not over a blank canvas.
+        requestAnimationFrame(() => setTimeout(hide, 220));
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  }
+  setTimeout(hide, 30000);
+
+  // --- real-byte progress, metering the loader's own fetches -----------------
+  const parts = new Map(); // url -> { loaded, total }
+  let shown = 0;
+  let sawAnyTotal = false;
+  let downloadComplete = false;
+
+  const render = () => {
+    let loaded = 0;
+    let total = 0;
+    for (const part of parts.values()) {
+      loaded += part.loaded;
+      total += part.total;
+    }
+    if (!total) return;
+    // Monotonic: a newly started download adds to the denominator, which would
+    // otherwise make the bar step backwards.
+    const pct = Math.min(99, Math.round((loaded / total) * 100));
+    if (pct > shown) {
+      shown = pct;
+      fill.style.width = `${shown}%`;
+    }
+    // Everything measurable has arrived; what is left is engine startup, whose
+    // duration we cannot measure, so stop showing a number for it.
+    if (loaded >= total && parts.size > 0 && !downloadComplete) {
+      downloadComplete = true;
+      fill.style.width = '100%';
+      setTimeout(() => {
+        if (!hidden) setIndeterminate('Starting');
+      }, 260);
+    }
+  };
+
+  const originalFetch = window.fetch.bind(window);
+  let metering = true;
+
+  window.fetch = async (input, init) => {
+    const response = await originalFetch(input, init);
+    if (!metering) return response;
+
+    const url = typeof input === 'string' ? input : input?.url || '';
+    const total = Number(response.headers.get('content-length')) || 0;
+    if (!/\.wasm(\?|$)/.test(url) || !response.body || !total || !response.ok) {
+      return response;
+    }
+
+    sawAnyTotal = true;
+    const entry = { loaded: 0, total };
+    parts.set(url, entry);
+    render();
+
+    // Pass the bytes straight through so the loader still gets a streaming
+    // body (and its Content-Type), counting them on the way past.
+    const reader = response.body.getReader();
+    const counted = new ReadableStream({
+      pull(controller) {
+        return reader.read().then(({ done, value }) => {
+          if (done) {
+            controller.close();
+            return;
+          }
+          entry.loaded += value.byteLength;
+          render();
+          controller.enqueue(value);
+        });
+      },
+      cancel(reason) {
+        return reader.cancel(reason);
+      },
+    });
+
+    return new Response(counted, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+    });
+  };
+
+  // If nothing measurable turned up shortly after start, stop pretending a
+  // determinate bar is meaningful and show honest motion instead.
+  setTimeout(() => {
+    if (!sawAnyTotal) setIndeterminate('Loading');
+  }, 2500);
+
+  const stopMetering = () => {
+    metering = false;
+    window.fetch = originalFetch;
+  };
+
+  const script = document.createElement('script');
+  script.src = 'flutter_bootstrap.js';
+  script.async = true;
+  script.onerror = () => {
+    stopMetering();
+    setIndeterminate('Loading');
+  };
+  document.body.appendChild(script);
+
+  // Once the view exists the download is done; hand fetch back to the app.
+  const releaseWhenRunning = setInterval(() => {
+    if (seen()) {
+      clearInterval(releaseWhenRunning);
+      stopMetering();
+    }
+  }, 250);
+  setTimeout(() => {
+    clearInterval(releaseWhenRunning);
+    stopMetering();
+  }, 60000);
+})();
+</script>
+
 </body>
 </html>
