@@ -47,13 +47,17 @@ const hourlyDemoSrc = buildDemoSrc({
 // ---------------------------------------------------------------------------
 // Theme catalogue — the 11 themes live in /v1/catalog on 2026-10-14, with the
 // display names and descriptions the app itself shows. Drafts are excluded.
-// Stills are the press kit's, reused in place so the page adds no new bytes.
+// Stills are the approved ones on the shared media platform (web/art/themes in
+// gs://advection-media/weatherie/assets, the same files /press lists), so
+// approving a new still there changes it here with no deploy.
 //
 // Deliberately no price, tier or credit information here or anywhere else on
 // the page: the store listings carry the real pricing, the landing page does
 // not discuss it. Presented as a sample rather than a complete list, because
 // more are on the way.
 // ---------------------------------------------------------------------------
+const THEME_ART = 'https://storage.googleapis.com/advection-media/weatherie/assets/web/art/themes';
+
 const bundledTheme = {
 	name: 'Open Road',
 	desc: 'Travel-poster landscapes — canyons, coasts, prairies and peaks — ninety places painted in every kind of weather.',
@@ -72,7 +76,7 @@ const themes = [
 	{ id: 'creaturephoto', name: 'Eye Level', desc: 'Photographed lying in the grass — a wren, a stag beetle, a sand cat — with the weather at their scale.' },
 	{ id: 'paperminimal', name: 'Folded', desc: 'A different origami creature every time, folded from coloured paper under soft studio light.' },
 	{ id: 'balloonfolk', name: 'Balloon Animals', desc: 'Everything twisted from modelling balloons — the animals, the clouds, even the rain.' },
-].map((t) => ({ ...t, img: `/press/media/themes/${t.id}.jpg` }));
+].map((t) => ({ ...t, img: `${THEME_ART}/${t.id}.jpg` }));
 
 const shots = [
 	{ src: '/media/shot-01_today_sunny.jpg', alt: 'Weatherie today screen with the built-in Open Road theme' },
@@ -137,7 +141,7 @@ const shots = [
 				<!-- Mockup Group -->
 				<div class="relative z-10 flex justify-center items-end gap-4 md:gap-8">
 					<div class="hidden h-[400px] w-48 -rotate-12 translate-y-12 overflow-hidden rounded-[2.5rem] border border-white/6 bg-slate-950 shadow-2xl opacity-40 md:block">
-						<img src="/press/media/themes/van-gogh.jpg" alt="" aria-hidden="true" loading="lazy" class="h-full w-full object-cover" />
+						<img src={`${THEME_ART}/van-gogh.jpg`} alt="" aria-hidden="true" loading="lazy" class="h-full w-full object-cover" />
 					</div>
 					<div class="relative group" data-demo-phone-shell>
 						<!-- High-end Glow -->
@@ -174,7 +178,7 @@ const shots = [
 						</div>
 					</div>
 					<div class="hidden h-[400px] w-48 translate-y-12 rotate-12 overflow-hidden rounded-[2.5rem] border border-white/6 bg-slate-950 shadow-2xl opacity-40 md:block">
-						<img src="/press/media/themes/stainedglass2.jpg" alt="" aria-hidden="true" loading="lazy" class="h-full w-full object-cover" />
+						<img src={`${THEME_ART}/stainedglass2.jpg`} alt="" aria-hidden="true" loading="lazy" class="h-full w-full object-cover" />
 					</div>
 				</div>
 				<p class="relative z-20 mt-8 text-sm font-medium text-slate-400">
